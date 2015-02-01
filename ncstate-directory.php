@@ -81,10 +81,10 @@ function print_person_options() {
 					</table>
 					';
 					submit_button();
-					echo '<pre>';
-					$feed = person_feed_parser();
-					person_insert_person(person_get_feed($feed[0][0]));
-					echo '</pre>';
+					//echo '<pre>';
+					//$feed = person_feed_parser();
+					//person_insert_person(person_get_feed($feed[0][0]));
+					//echo '</pre>';
 	echo		'</form>';
 	echo '</div>';
 }

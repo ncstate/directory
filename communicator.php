@@ -2,25 +2,49 @@
 
 use GuzzleHttp\Client;
 
-add_action('init', 'update_people');
+add_action('init', 'get_updates');
 
-$oucs = person_feed_parser('person_ouc');
-$unity_ids = person_feed_parser('person_unity_ids');
-
-function update_people() {
-	$client = new Client();
-	$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users?ouc=172201&limit=10');
-	$json = $response->json();
-
-	$people = $json['items'];
+function get_updates() {
+	$oucs = person_feed_parser('person_ouc');
+	$unity_ids = person_feed_parser('person_unity_ids');
 	
+	$people = array();
+	foreach($oucs as $ouc) {
+		$people = array_merge($people, get_ouc(trim($ouc)));
+	}
+	
+	foreach($unity_ids as $unity_id) {
+		$people[] = get_person(trim($unity_id));
+	}
+	
+	if(count($people)>0) {
+		update_people($people);
+	}
+	
+}
+
+function get_ouc($ouc) {
 	/*
 		TODO: If 100 or more items are return query again for another 100 items;
 		recursively do this until that condition is no longer met
 	*/
+	
+	$client = new Client();
+	$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users?ouc=' . $ouc . '&limit=100');
+	$json = $response->json();
+	return $json['items'];
+}
+
+function get_person($unity_id) {
+	$client = new Client();
+	$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users/' . $unity_id);
+	$json = $response->json();
+	return $json['item'];
+}
+
+function update_people($people) {
 
 	foreach($people as $person):
-		//var_dump(person_exists($person['id']));
 		if(!person_exists($person['id'])):
 			$post = array(
 				'post_title' => $person['first_name'] . " " . $person['last_name'],
