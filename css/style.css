@@ -1,0 +1,14 @@
+#event .main-content {
+	
+}
+
+#event aside {
+	margin-top: 10em;
+}
+
+#map-canvas {
+	width: 100%;
+	max-width: 1500px;
+	height: 400px;
+	margin: auto;
+}
