@@ -29,10 +29,19 @@ function get_ouc($ouc) {
 		recursively do this until that condition is no longer met
 	*/
 	
-	$client = new Client();
-	$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users?ouc=' . $ouc . '&limit=100');
-	$json = $response->json();
-	return $json['items'];
+	$items = array();
+	$offset = 0;
+	do {
+		$client = new Client();
+		$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users?ouc=' . $ouc . '&limit=100&offset=' . $offset);
+		$json = $response->json();
+		$items = array_merge($items, $json['items']);
+		$offset = $offset + 100;
+	} while (count($items)==$offset); 
+	//echo '<pre>';
+	//var_dump($json);
+	//echo '</pre>';
+	return $items;
 }
 
 function get_person($unity_id) {

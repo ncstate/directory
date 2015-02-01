@@ -2,6 +2,7 @@
 
 $person_meta='';
 
+// TODO: Escape user input?
 function get_person_field($the_field) {
 	global $person_meta;	
 	return $person_meta[$the_field][0];
