@@ -10,10 +10,12 @@ function get_updates() {
 	
 	$people = array();
 	foreach($oucs as $ouc) {
+		if(empty($ouc)) { break; }
 		$people = array_merge($people, get_ouc(trim($ouc)));
 	}
 	
 	foreach($unity_ids as $unity_id) {
+		if(empty($unity_id)) { break; }
 		$people[] = get_person(trim($unity_id));
 	}
 	
@@ -24,11 +26,6 @@ function get_updates() {
 }
 
 function get_ouc($ouc) {
-	/*
-		TODO: If 100 or more items are return query again for another 100 items;
-		recursively do this until that condition is no longer met
-	*/
-	
 	$items = array();
 	$offset = 0;
 	do {
@@ -37,10 +34,7 @@ function get_ouc($ouc) {
 		$json = $response->json();
 		$items = array_merge($items, $json['items']);
 		$offset = $offset + 100;
-	} while (count($items)==$offset); 
-	//echo '<pre>';
-	//var_dump($json);
-	//echo '</pre>';
+	} while (count($items)==$offset);
 	return $items;
 }
 
