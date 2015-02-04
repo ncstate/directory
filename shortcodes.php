@@ -1,5 +1,7 @@
 <?php
 
+include 'views/directory_listing.php';
+
 $person_meta='';
 
 // TODO: Escape user input?
@@ -27,6 +29,12 @@ function person_info_shortcode($atts) {
 	return get_person_field($atts['field']);
 }
 add_shortcode('person_info', 'person_info_shortcode');
+
+function directory_shortcode($atts) {
+	$group = $atts['group'];
+	return print_directory($group);
+}
+add_shortcode('directory', 'directory_shortcode');
 
 /*
 [person unity_id="csthomp2"]
