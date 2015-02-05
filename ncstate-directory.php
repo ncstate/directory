@@ -21,7 +21,7 @@ function create_person_post_type() {
 				'singular_name' => __( 'Person' )
 			),
 		'public' => true,
-		'has_archive' => false,
+		'has_archive' => true,
 		'supports' => array( 'title', 'editor', 'custom-fields' ),
 		)
 	);
