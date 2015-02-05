@@ -12,7 +12,7 @@ function print_directory($group) {
 		//echo '<pre>';
 		//var_dump($person);
 		//echo '</pre>';
-		$image = wp_get_attachment_image_src($meta['image'][0]);
+		$image = wp_get_attachment_image_src($meta['image'][0], 'full');
 		$return_value .= '
 			<div class="directory_entry">
 				<img src="' . $image[0] . '" />

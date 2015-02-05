@@ -8,14 +8,18 @@
 		<div class="container">
 			<?php $meta = get_post_meta(get_the_ID()); ?>
 			<h1><?php echo $meta['first_name'][0] . ' ' . $meta['last_name'][0]; ?></h1>
-			<?php $image = wp_get_attachment_image_src($meta['image'][0]); ?>
+			<?php $image = wp_get_attachment_image_src($meta['image'][0], 'full'); ?>
 			<img src="<?php echo $image[0]; ?>" />
-			<p class="title"><?php echo $meta['title'][0]; ?></p>
-			<p class="email"><?php echo $meta['email'][0]; ?></p>
-			<p class="phone"><?php echo $meta['phone'][0]; ?></p>
-			<?php if ( have_posts() ): while ( have_posts() ) : the_post(); ?>	
-				<p><?php echo get_the_content(); ?></p>
-			<?php endwhile; endif; ?>
+			<div class="person_info">
+				<p class="title"><?php echo $meta['title'][0]; ?></p>
+				<p class="email"><?php echo $meta['email'][0]; ?></p>
+				<p class="phone"><?php echo $meta['phone'][0]; ?></p>
+			</div>
+				<div class="bio">
+				<?php if ( have_posts() ): while ( have_posts() ) : the_post(); ?>	
+					<p><?php echo get_the_content(); ?></p>
+				<?php endwhile; endif; ?>
+			</div>
 		</div>
 	</div>
 </div>
