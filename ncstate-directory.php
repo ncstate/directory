@@ -11,6 +11,11 @@
 
 require 'vendor/autoload.php';
 
+function directory_styles() {
+	wp_enqueue_style('ncstate_directory_style', plugins_url() . '/ncstate-directory/css/style.css');
+}
+add_action('wp_enqueue_scripts', 'directory_styles');
+
 // Create 'Person' custom post type
 add_action( 'init', 'create_person_post_type' );
 function create_person_post_type() {

@@ -1,14 +1,53 @@
-#event .main-content {
-	
-}
+div.directory_entry {
+  margin-bottom: 4em;
+  float: left;
+  min-height: 200px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px; }
+  @media (min-width: 992px) {
+    div.directory_entry {
+      float: left;
+      width: 33.3333333333%; } }
+  div.directory_entry p {
+    margin: 0; }
+  div.directory_entry img {
+    width: 100%;
+    padding-bottom: 30px;
+    /* Left/Right on phone breakpoint; two across on tablet */ }
+  div.directory_entry a {
+    text-decoration: underlin; }
 
-#event aside {
-	margin-top: 10em;
-}
-
-#map-canvas {
-	width: 100%;
-	max-width: 1500px;
-	height: 400px;
-	margin: auto;
-}
+#person {
+  clear: both; }
+  #person img {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px; }
+    @media (min-width: 992px) {
+      #person img {
+        float: left;
+        width: 25%; } }
+  #person .person_info {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px; }
+    @media (min-width: 992px) {
+      #person .person_info {
+        float: left;
+        width: 50%; } }
+    #person .person_info p {
+      margin: 0; }
+  #person .bio {
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    clear: both; }
+    @media (min-width: 992px) {
+      #person .bio {
+        float: left;
+        width: 83.3333333333%; } }

@@ -1,0 +1,46 @@
+@import '_mixins';
+@import '_variables';
+
+div.directory_entry {
+	margin-bottom: 4em;
+	float: left;
+	min-height: 200px;
+	@include make-md-column(4);
+	
+	p {
+		margin: 0;
+	}
+	
+	img {
+		width: 100%;
+		padding-bottom: 30px;
+		
+		/* Left/Right on phone breakpoint; two across on tablet */
+		
+	}
+	
+	a {
+		text-decoration: underlin;
+	}
+}
+
+#person {
+	clear: both;
+	
+	img {
+		@include make-md-column(3);
+	}
+	
+	.person_info {
+		@include make-md-column(6);
+		
+		p {
+			margin: 0;
+		}
+	}
+	
+	.bio {
+		@include make-md-column(10);
+		clear: both;
+	}
+}
