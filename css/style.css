@@ -11,13 +11,11 @@ div.directory_entry {
       float: left;
       width: 33.3333333333%; } }
   div.directory_entry p {
-    margin: 0; }
+    margin: 0 !important; }
   div.directory_entry img {
     width: 100%;
     padding-bottom: 30px;
     /* Left/Right on phone breakpoint; two across on tablet */ }
-  div.directory_entry a {
-    text-decoration: underlin; }
 
 #person {
   clear: both; }

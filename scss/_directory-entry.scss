@@ -8,7 +8,7 @@ div.directory_entry {
 	@include make-md-column(4);
 	
 	p {
-		margin: 0;
+		margin: 0 !important;
 	}
 	
 	img {
@@ -17,10 +17,6 @@ div.directory_entry {
 		
 		/* Left/Right on phone breakpoint; two across on tablet */
 		
-	}
-	
-	a {
-		text-decoration: underlin;
 	}
 }
 
