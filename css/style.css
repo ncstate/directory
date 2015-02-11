@@ -3,19 +3,50 @@ div.directory_entry {
   float: left;
   min-height: 200px;
   position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  position: relative;
   min-height: 1px;
   padding-left: 15px;
   padding-right: 15px; }
+  @media (min-width: 768px) {
+    div.directory_entry {
+      float: left;
+      width: 50%; } }
   @media (min-width: 992px) {
     div.directory_entry {
       float: left;
       width: 33.3333333333%; } }
+  @media (min-width: 1200px) {
+    div.directory_entry {
+      float: left;
+      width: 25%; } }
   div.directory_entry p {
     margin: 0 !important; }
+  @media (max-width: 767px) {
+    div.directory_entry .person_info {
+      float: left;
+      display: block;
+      margin-left: 30px; } }
   div.directory_entry img {
-    width: 100%;
     padding-bottom: 30px;
     /* Left/Right on phone breakpoint; two across on tablet */ }
+    @media (max-width: 767px) {
+      div.directory_entry img {
+        max-width: 40%;
+        float: left;
+        display: block; } }
 
 #person {
   clear: both; }
