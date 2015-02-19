@@ -21,7 +21,7 @@ function person_shortcode($atts, $content=null) {
 	$person_id = $people[0]->ID;
 	global $person_meta;
 	$person_meta=get_post_meta($person_id);
-	echo do_shortcode($content);
+	return do_shortcode($content);
 }
 add_shortcode('person', 'person_shortcode');
 
