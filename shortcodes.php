@@ -26,7 +26,11 @@ function person_shortcode($atts, $content=null) {
 add_shortcode('person', 'person_shortcode');
 
 function person_info_shortcode($atts) {
-	return get_person_field($atts['field']);
+	if($atts['field']=='email'):
+		return '<a href="mailto:' . get_person_field($atts['field']) . '">' . get_person_field($atts['field']) . '</a>';
+	else:
+		return get_person_field($atts['field']);
+	endif;
 }
 add_shortcode('person_info', 'person_info_shortcode');
 
