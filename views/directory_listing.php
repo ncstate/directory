@@ -39,13 +39,17 @@ function print_person($person) {
 	if(strlen($meta['phone'][0])==10) {
 		$meta['phone'][0] = substr($meta['phone'][0],0,3) . "." . substr($meta['phone'][0],3,3) . "." . substr($meta['phone'][0],6);
 	}
+	$dean_bio='';
+	if($meta['hierarchy'][0]==1) {
+		$dean_bio = " (<a href='/about/staff/meet-the-dean/'>Bio</a>)";
+	}
 	$return_value .= '
 		<div class="directory_entry">
 			<a href="' . get_site_url() . '/person/' . $person->post_name . '">
 				' . $img_tag . '
 			</a>
 			<div class="person_info">
-				<a href="' . get_site_url() . '/person/' . $person->post_name . '"><p class="name">' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</p></a>
+				<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
 				<p class="title">' . $meta['title'][0] . '</p>
 				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
 				<p class="phone">' . $meta['phone'][0] . '</p>
