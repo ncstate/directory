@@ -4,6 +4,7 @@ function print_directory($group) {
 	$args = array(
 		'post_type' => 'person',
 		'subgroup' => $group,
+		'nopaging'	=> true,
 	);
 	$people = get_posts($args);
 	$return_value = '';

@@ -22,6 +22,7 @@ function person_shortcode($atts, $content=null) {
 		'name' => $unity_id,
 		'post_type' => 'person',
 		'post_status' => 'publish',
+		'nopaging'	=> true,
 	);
 	$people = get_posts($args);
 	$person_id = $people[0]->ID;
