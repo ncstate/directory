@@ -2,7 +2,7 @@
 /**
  * Plugin Name: NC State Directory
  * Plugin URI: http://sciences.ncsu.edu
- * Description: Creates custom post type for events that are added manually or from an external feed.
+ * Description: Creates custom post type for people that are added manually or from campus LDAP.
  * Version: 0.1
  * Author: Scott Thompson, NC State
  * Author URI: http://github.com/csthomp89
@@ -12,7 +12,7 @@
 require 'vendor/autoload.php';
 
 function directory_styles() {
-	wp_enqueue_style('ncstate_directory_style', plugins_url() . '/ncstate-directory/css/style.css');
+	wp_enqueue_style('ncstate_directory_style', plugin_dir_url(__FILE__) . '/css/style.css');
 }
 add_action('wp_enqueue_scripts', 'directory_styles');
 
