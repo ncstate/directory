@@ -89,6 +89,8 @@ function update_people($people) {
 				wp_set_object_terms($id, 'staff', 'subgroup');
 			elseif($person['role']=='faculty'):
 				wp_set_object_terms($id, 'faculty', 'subgroup');
+			elseif($person['role']=='student'):
+				wp_set_object($id, 'student', 'subgroup');
 			else:
 				
 			endif;
@@ -153,5 +155,8 @@ function ldap_formatter($input) {
 			'office' => $entry['registeredaddress'][0],
 		);
 	endforeach;
+	echo '<pre>';
+	var_dump($output);
+	echo '</pre>';
 	return $output;
 }
