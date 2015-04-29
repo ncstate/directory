@@ -90,7 +90,7 @@ function update_people($people) {
 			elseif($person['role']=='faculty'):
 				wp_set_object_terms($id, 'faculty', 'subgroup');
 			elseif($person['role']=='student'):
-				wp_set_object($id, 'student', 'subgroup');
+				wp_set_object_terms($id, 'student', 'subgroup');
 			else:
 				
 			endif;
