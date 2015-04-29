@@ -84,6 +84,8 @@ function update_people($people) {
 			update_post_meta($id, 'email', $person['email']);
 			update_post_meta($id, 'phone', $person['phone']);
 			update_post_meta($id, 'title', $person['title']);
+			update_post_meta($id, 'website', $person['website']);
+			update_post_meta($id, 'office', $person['office']);
 			update_post_meta($id, 'auto_update', true);
 			if($person['role']=='staff'):
 				wp_set_object_terms($id, 'staff', 'subgroup');
@@ -101,6 +103,8 @@ function update_people($people) {
 			update_post_meta($id, 'email', $person['email']);
 			update_post_meta($id, 'phone', $person['phone']);
 			update_post_meta($id, 'title', $person['title']);
+			update_post_meta($id, 'website', $person['website']);
+			update_post_meta($id, 'office', $person['office']);
 		endif;
 	endforeach;
 }
