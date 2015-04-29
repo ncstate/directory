@@ -143,6 +143,13 @@ function ldap_formatter($input) {
 		else:
 			$name = $entry['givenname'][0];
 		endif;
+		$office = null;
+		if($entry['registeredaddress'][0]!=null):
+			if(strpos($entry['registeredaddress'][0], "Box")!=0):
+				$comma = strpos($entry['registeredaddress'][0], ",");
+				$office = substr($entry['registeredaddress'][0], 0, $comma);
+			endif;
+		endif;
 		$output[] = array(
 			'id' => $entry['uid'][0],
 			'email' => $entry['mail'][0],
@@ -152,11 +159,8 @@ function ldap_formatter($input) {
 			'last_name' => $entry['sn'][0],
 			'phone' => $entry['telephonenumber'][0],
 			'website' => $entry['ncsuwebsite'][0],
-			'office' => $entry['registeredaddress'][0],
+			'office' => $office,
 		);
 	endforeach;
-	echo '<pre>';
-	var_dump($output);
-	echo '</pre>';
 	return $output;
 }
