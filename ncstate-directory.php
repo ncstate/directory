@@ -12,7 +12,11 @@
 require 'vendor/autoload.php';
 
 function directory_styles() {
-	wp_enqueue_style('ncstate_directory_style', plugin_dir_url(__FILE__) . '/css/style.css');
+	if ( file_exists(get_stylesheet_directory() . '/ncstate-directory/css/style.css') ) {
+		wp_enqueue_style('ncstate_directory_style', get_stylesheet_directory_uri() . '/ncstate-directory/css/style.css');
+	} else {
+		wp_enqueue_style('ncstate_directory_style', plugin_dir_url(__FILE__) . '/css/style.css');
+	}
 }
 add_action('wp_enqueue_scripts', 'directory_styles');
 

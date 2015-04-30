@@ -1,2 +1,6 @@
 */.sass-cache/*
 config.codekit
+
+views/
+scss/
+css/

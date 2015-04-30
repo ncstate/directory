@@ -1,6 +1,9 @@
 <?php
-
-include 'views/directory_listing.php';
+if ( file_exists( get_stylesheet_directory() . '/ncstate-directory/views/directory_listing.php') ) :
+	include get_stylesheet_directory() . '/ncstate-directory/views/directory_listing.php';
+else :
+	include 'views/directory_listing.php';
+endif; 
 
 $person_meta='';
 
