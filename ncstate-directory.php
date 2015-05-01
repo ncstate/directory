@@ -9,8 +9,6 @@
  * License: MIT
  */
 
-require 'vendor/autoload.php';
-
 function directory_styles() {
 	if ( file_exists(get_stylesheet_directory() . '/ncstate-directory/css/style.css') ) {
 		wp_enqueue_style('ncstate_directory_style', get_stylesheet_directory_uri() . '/ncstate-directory/css/style.css');
