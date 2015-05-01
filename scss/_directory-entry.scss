@@ -1,0 +1,70 @@
+@import '_mixins';
+@import '_variables';
+
+div.directory_entry {
+	margin-bottom: 1em;
+	float: left;
+	min-height: 25em !important;
+	@include make-xs-column(12);
+	@include make-sm-column(6);
+	@include make-md-column(4);
+	@include make-lg-column(3.5);
+	
+	p {
+		margin: 0 !important;
+	}
+	
+	.person_info {
+		@media (max-width: $screen-xs-max) {
+			float: left;
+			display: block;
+			margin-left: 30px;
+		}
+	}
+	
+	img {
+		margin-bottom: 30px;
+		
+		@media (max-width: $screen-xs-max) {
+			max-width: 40%;
+			float: left;
+			display: block;
+		}
+		
+		/* Left/Right on phone breakpoint; two across on tablet */
+		
+	}
+	
+	.initials {
+		width: 100%;
+		height: 0;
+		padding-bottom: 70%;
+		padding-top: 30%;
+		font-size: 3em;
+		font-family: $univers-condensed;
+		text-align: center;
+		background-color: #ddd;
+		margin-bottom: 28px;
+	}
+}
+
+#person {
+	clear: both;
+	
+	img {
+		@include make-md-column(3);
+	}
+	
+	.person_info {
+		@include make-md-column(6);
+		
+		p {
+			margin: 0;
+		}
+	}
+	
+	.bio {
+		@include make-md-column(10);
+		clear: both;
+	}
+}
