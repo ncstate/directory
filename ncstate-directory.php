@@ -9,6 +9,11 @@
  * License: MIT
  */
 
+include 'acf.php';
+include 'add-views.php';
+include 'communicator.php';
+include 'shortcodes.php';
+
 function directory_styles() {
 	if ( file_exists(get_stylesheet_directory() . '/ncstate-directory/css/style.css') ) {
 		wp_enqueue_style('ncstate_directory_style', get_stylesheet_directory_uri() . '/ncstate-directory/css/style.css');
@@ -102,11 +107,3 @@ function person_feed_parser($option) {
 	$oucs = explode(",", $raw);
 	return $oucs;
 }
-
-// Adding ACF custom fields info
-
-include 'acf.php';
-include 'custom-fields.php';
-include 'add-views.php';
-include 'communicator.php';
-include 'shortcodes.php';

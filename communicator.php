@@ -1,7 +1,5 @@
 <?php
 
-use GuzzleHttp\Client;
-
 add_action('init', 'get_updates');
 
 function get_updates() {
@@ -25,22 +23,6 @@ function get_updates() {
 	
 }
 
-function get_ouc($ouc) {
-	$items = array();
-	$offset = 0;
-	do {
-		$client = new Client();
-		$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users?ouc=' . $ouc . '&limit=100&offset=' . $offset);
-		$json = $response->json();
-		$items = array_merge($items, $json['items']);
-		$offset = $offset + 100;
-	} while (count($items)==$offset);
-	echo '<pre>';
-	var_dump($items);
-	echo '</pre>';
-	return $items;
-}
-
 function get_ouc_ldap($ouc) {
 	$items = array();
 	$ds = ldap_connect("ldap.ncsu.edu");
@@ -48,13 +30,6 @@ function get_ouc_ldap($ouc) {
 	$sr = ldap_search($ds, "ou=employees,ou=people,dc=ncsu,dc=edu", "departmentNumber=" . $ouc, array('uid', 'mail', 'ncsuPreferredGivenName', 'sn','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
 	$entries = ldap_get_entries($ds, $sr);
 	return ldap_formatter($entries);
-}
-
-function get_person($unity_id) {
-	$client = new Client();
-	$response = $client->get('http://www.webtools.ncsu.edu/idm/api/users/' . $unity_id);
-	$json = $response->json();
-	return $json['item'];
 }
 
 function get_person_ldap($unity_id) {
