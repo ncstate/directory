@@ -44,6 +44,7 @@ function get_person_ldap($unity_id) {
 function update_people($people) {
 
 	foreach($people as $person):
+		$person = $person[0];
 		if(!person_exists($person['id'])):
 			$post = array(
 				'post_title' => $person['first_name'] . " " . $person['last_name'],
