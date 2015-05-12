@@ -14,13 +14,13 @@ function person_get_single($single) {
     endif;
 }
 
-// add_filter('index_template', 'events_get_index');
-// function events_get_index($index) {
-//     $post_type = get_query_var( 'post_type' ); 
+add_filter('index_template', 'person_get_index');
+function person_get_index($index) {
+	$is_person = get_post_type($post_id) == 'person' ? true : false;
 
-//     if($post_type == 'events'):
-//         return plugin_dir_path(__FILE__) . 'views/index.php';
-//     else:
-//         return $index;
-//     endif;
-// }
+    if($is_person):
+        return plugin_dir_path(__FILE__) . 'views/index.php';
+    else:
+        return $index;
+    endif;
+}

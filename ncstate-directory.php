@@ -35,7 +35,7 @@ function create_person_post_type() {
 		'public' => true,
 		'has_archive' => true,
 		'supports' => array( 'title', 'editor', 'custom-fields' ),
-		'rewrite' => array( 'slug' => 'person', 'with_front' => false ),
+		'rewrite' => array( 'slug' => 'people', 'with_front' => false ),
 		)
 	);
 }
@@ -55,7 +55,7 @@ function person_init() {
 	        ),
 	        'show_ui' => true,
 	        'show_tagcloud' => false,
-	        'hierarchical' => true
+	        'hierarchical' => true,
 	    )
 	);
 	$args = array(

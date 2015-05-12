@@ -9,22 +9,7 @@ function print_directory($group) {
 	$people = get_posts($args);
 	$return_value = '';
 	foreach($people as $person) :
-		$meta = get_post_meta($person->ID);
-		if($meta['hierarchy'][0]=='1'):
-			$return_value .= print_person($person);
-		endif;
-	endforeach;
-	foreach($people as $person) :
-		$meta = get_post_meta($person->ID);
-		if($meta['hierarchy'][0]=='2'):
-			$return_value .= print_person($person);
-		endif;
-	endforeach;
-	foreach($people as $person) :
-		$meta = get_post_meta($person->ID);
-		if($meta['hierarchy'][0]=='0' || $meta['hierarchy']==null):
-			$return_value .= print_person($person);
-		endif;
+		$return_value .= print_person($person);
 	endforeach;
 	return $return_value;
 }
@@ -39,10 +24,6 @@ function print_person($person) {
 	}
 	if(strlen($meta['phone'][0])==10) {
 		$meta['phone'][0] = substr($meta['phone'][0],0,3) . "." . substr($meta['phone'][0],3,3) . "." . substr($meta['phone'][0],6);
-	}
-	$dean_bio='';
-	if($meta['hierarchy'][0]==1) {
-		$dean_bio = " (<a href='/about/staff/meet-the-dean/'>Bio</a>)";
 	}
 	$return_value .= '
 		<div class="directory_entry">
