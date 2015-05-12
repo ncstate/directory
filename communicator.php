@@ -54,6 +54,7 @@ function update_people($people) {
 		
 			);
 			$id = wp_insert_post($post);
+			update_post_meta($id, 'uid', $person['id']);
 			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'last_name', $person['last_name']);
 			update_post_meta($id, 'first_name', $person['first_name']);
@@ -87,8 +88,10 @@ function update_people($people) {
 
 function person_exists($unity_id) {
 	$args = array(
-		'name' => $unity_id,
 		'post_type' => 'person',
+		'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
+		'meta_key' => 'uid',
+		'meta_value' => $unity_id,
 	);
 	$posts = get_posts($args);
 	if(count($posts)>0) {
