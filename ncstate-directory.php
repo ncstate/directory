@@ -56,6 +56,7 @@ function person_init() {
 	        'show_ui' => true,
 	        'show_tagcloud' => false,
 	        'hierarchical' => true,
+	        'rewrite' => array( 'with_front' => false )
 	    )
 	);
 	$args = array(
