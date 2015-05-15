@@ -58,6 +58,10 @@ div.directory_entry {
     background-color: #ddd;
     margin-bottom: 28px; }
 
+#directory-index .index-nav {
+  clear: both;
+  text-align: center; }
+
 #person {
   clear: both; }
   #person img {

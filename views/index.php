@@ -1,13 +1,29 @@
 <?php
-	//include 'directory_listing.php';
+
+    global $wp_query;
+
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+    $group = (get_query_var('term')) ? get_query_var('term') : false;
+
 
     $arqs = array(
             'post_type'       => 'person',
-            'subgroup' 	  => get_query_var('term'),
-			'nopaging'		  => true,
+            'subgroup'     => $group,
+            'posts_per_page' => 20,
+            'paged' => $paged,
+            'meta_key'        => 'first_name',
+            'meta_query' => array(
+                array(
+                    'key' => 'first_name',
+                    'value' => ' ',
+                    'compare' => '!='
+                )
+            ),
+            'orderby' => 'title',
+            'order' => 'ASC',
     );
-    $query = new WP_Query($arqs);
-    $people = $query->posts;
+    $wp_query = new WP_Query($arqs);
+    $number_of_pages = $wp_query->max_num_pages;
 
 ?>
 
@@ -19,13 +35,46 @@
 <div id="main-content" role="main">
 
 <!-- Remove for custom HP -->
-<section class="text-mod" id="events-plugin">
+<section class="text-mod no-components" id="directory-index">
   <div class="container">
     <div class="section-txt">
-	<h1><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Events';?></h1>
-	<?php foreach($people as $person):
-		echo print_person($person);
-	endforeach; ?>	
+	<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'People';?></h1>
+        <div class="row">
+    	<?php 
+            if ( $wp_query->have_posts() ) :
+                while( $wp_query->have_posts() ) : $wp_query->the_post();
+                    $person = get_post();
+                    echo print_person($person);
+                endwhile;
+                if ($number_of_pages > 1) :
+        ?>
+        <?php 
+                $args = array(
+                    'format' => 'page/%#%',
+                    'type'   => 'array',
+                    'show_all' => true,
+                    'prev_text' => '&laquo;',
+                    'next_text' => '&raquo;'
+                );
+                $links = paginate_links($args); 
+        ?>
+            <div class="index-nav">
+                <ul class="pagination">
+                    <?php 
+                        foreach($links as $link) :
+                            $class = (strpos($link,'current')) ? ' class="active"' : '';
+                            echo '<li' . $class . '>' . $link . '</li>';
+                        endforeach;
+                    ?>
+                </ul>
+            </div>
+        <?php
+                endif;
+            else :
+                echo "<p>Sorry, no posts matched your criteria.</p>";
+            endif;
+        ?>	
+        </div>
     </div>
   </div>
 </section>
