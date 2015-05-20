@@ -77,6 +77,7 @@ function person_options() {
 }
 
 function print_person_options() {
+	get_updates();
 	echo '<div class="wrap">';
 	echo	'<h2>People Admin</h2>';
 	echo 		'<form method="post" action="options.php">';

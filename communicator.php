@@ -1,7 +1,5 @@
 <?php
 
-add_action('init', 'get_updates');
-
 function get_updates() {
 	$oucs = person_feed_parser('person_ouc');
 	$unity_ids = person_feed_parser('person_unity_ids');
@@ -9,16 +7,12 @@ function get_updates() {
 	$people = array();
 	foreach($oucs as $ouc) {
 		if(empty($ouc)) { break; }
-		$people = array_merge($people, get_ouc_ldap(trim($ouc)));
+		update_people(get_ouc_ldap(trim($ouc)));
 	}
 	
 	foreach($unity_ids as $unity_id) {
 		if(empty($unity_id)) { break; }
-		$people[] = get_person_ldap(trim($unity_id));
-	}
-	
-	if(count($people)>0) {
-		update_people($people);
+		update_people(get_person_ldap(trim($unity_id)));
 	}
 	
 }
@@ -44,7 +38,6 @@ function get_person_ldap($unity_id) {
 function update_people($people) {
 
 	foreach($people as $person):
-		$person = $person[0];
 		if(!person_exists($person['id'])):
 			$post = array(
 				'post_title' => $person['first_name'] . " " . $person['last_name'],
@@ -73,7 +66,7 @@ function update_people($people) {
 			else:
 				
 			endif;
-		elseif($id = person_auto_update($person['id'])):
+		elseif(person_auto_update($person['id'])):
 			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'last_name', $person['last_name']);
 			update_post_meta($id, 'first_name', $person['first_name']);
@@ -103,8 +96,10 @@ function person_exists($unity_id) {
 
 function person_auto_update($unity_id) {
 	$args = array(
-		'name' => $unity_id,
-		'post_type' => 'person',
+                'post_type' => 'person',
+                'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
+                'meta_key' => 'uid',
+                'meta_value' => $unity_id,
 	);
 	$posts = get_posts($args);
 	if(get_post_meta($posts[0]->ID, 'auto_update', true)) {
