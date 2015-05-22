@@ -9,7 +9,6 @@
  * License: MIT
  */
 
-include 'acf.php';
 include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';
