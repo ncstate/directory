@@ -38,13 +38,13 @@ div.directory_entry {
     div.directory_entry .person_info {
       float: left;
       display: block;
-      margin-left: 30px; } }
+      clear: left; } }
   div.directory_entry img {
     margin-bottom: 30px;
     /* Left/Right on phone breakpoint; two across on tablet */ }
     @media (max-width: 767px) {
       div.directory_entry img {
-        max-width: 40%;
+        max-width: 60%;
         float: left;
         display: block; } }
   div.directory_entry .initials {
@@ -57,6 +57,11 @@ div.directory_entry {
     text-align: center;
     background-color: #ddd;
     margin-bottom: 28px; }
+    @media (max-width: 767px) {
+      div.directory_entry .initials {
+        width: 60%;
+        padding-bottom: 40%;
+        padding-top: 20%; } }
 
 #directory-index .index-nav {
   clear: both;

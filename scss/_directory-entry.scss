@@ -18,7 +18,8 @@ div.directory_entry {
 		@media (max-width: $screen-xs-max) {
 			float: left;
 			display: block;
-			margin-left: 30px;
+			clear: left;
+			
 		}
 	}
 	
@@ -26,7 +27,7 @@ div.directory_entry {
 		margin-bottom: 30px;
 		
 		@media (max-width: $screen-xs-max) {
-			max-width: 40%;
+			max-width: 60%;
 			float: left;
 			display: block;
 		}
@@ -45,6 +46,12 @@ div.directory_entry {
 		text-align: center;
 		background-color: #ddd;
 		margin-bottom: 28px;
+		
+		@media (max-width: $screen-xs-max) {
+			width: 60%;
+			padding-bottom: 40%;
+			padding-top: 20%;	
+		}
 	}
 }
 
