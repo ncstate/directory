@@ -30,7 +30,7 @@ function print_person($person) {
 	}
 	$return_value .= '
 		<div class="directory_entry">
-			<a href="' . get_site_url() . '/person/' . $person->post_name . '">
+			<a href="' . get_site_url() . '/people/' . $person->post_name . '">
 				' . $img_tag . '
 			</a>
 			<div class="person_info">
