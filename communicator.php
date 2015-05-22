@@ -66,7 +66,7 @@ function update_people($people) {
 			else:
 				
 			endif;
-		elseif(person_auto_update($person['id'])):
+		elseif($id = person_auto_update($person['id'])):
 			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'last_name', $person['last_name']);
 			update_post_meta($id, 'first_name', $person['first_name']);
