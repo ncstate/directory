@@ -35,6 +35,7 @@ function create_person_post_type() {
 		'has_archive' => true,
 		'supports' => array( 'title', 'editor', 'custom-fields' ),
 		'rewrite' => array( 'slug' => 'people', 'with_front' => false ),
+		'menu_icon' => 'dashicons-id',			
 		)
 	);
 }
