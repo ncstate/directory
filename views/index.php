@@ -34,11 +34,11 @@
 
 <div id="main-content" role="main">
 
-<!-- Remove for custom HP -->
+<!-- Remove for custom index -->
 <section class="text-mod no-components" id="directory-index">
   <div class="container">
     <div class="section-txt">
-	<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'People';?></h1>
+	<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Directory';?></h1>
         <div class="row">
     	<?php 
             if ( $wp_query->have_posts() ) :
