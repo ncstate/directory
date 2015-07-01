@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: NC State Directory
- * Plugin URI: http://sciences.ncsu.edu
+ * Plugin URI: https://github.ncsu.edu/ncstate-ucomm/ncstate-events
  * Description: Creates custom post type for people that are added manually or from campus LDAP.
- * Version: 0.1
- * Author: Scott Thompson, NC State
- * Author URI: http://github.com/csthomp89
+ * Version: 1.0
+ * Author: University Communications, NC State
+ * Author URI: http://university-communications.ncsu.edu/
  * License: MIT
  */
 
@@ -96,10 +96,6 @@ function print_person_options() {
 					</table>
 					';
 					submit_button();
-					//echo '<pre>';
-					//$feed = person_feed_parser();
-					//person_insert_person(person_get_feed($feed[0][0]));
-					//echo '</pre>';
 	echo		'</form>';
 	echo '</div>';
 }
