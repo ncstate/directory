@@ -105,3 +105,25 @@ function person_feed_parser($option) {
 	$oucs = explode(",", $raw);
 	return $oucs;
 }
+
+// Setting auto daily directory updates
+
+register_activation_hook(__FILE__, 'ncstate_directory_schedule');
+
+function ncstate_directory_schedule() {
+	if(!wp_next_scheduled('ncstate_directory_hourly_update')):
+		wp_schedule_event(time(), 'daily', 'ncstate_directory_hourly_update');
+	endif;
+}
+
+function ncstate_directory_hourly_update() {
+	get_updates();
+}
+
+register_deactivation_hook(__FILE__, 'ncstate_directory_unschedule');
+
+function ncstate_directory_unschedule() {
+	wp_clear_scheduled_hook('ncstate_directory_hourly_update');
+}
+
+// End daily updates section
