@@ -5,6 +5,9 @@ function print_directory($group) {
 		'post_type' => 'person',
 		'subgroup' => $group,
 		'nopaging'	=> true,
+		'meta_key'  => 'last_name',
+		'orderby' => 'meta_value',
+        'order' => 'ASC',
 	);
 	$people = get_posts($args);
 	$return_value = '';

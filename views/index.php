@@ -11,15 +11,15 @@
             'subgroup'     => $group,
             'posts_per_page' => 20,
             'paged' => $paged,
-            'meta_key'        => 'first_name',
+            'meta_key'        => 'last_name',
             'meta_query' => array(
                 array(
-                    'key' => 'first_name',
+                    'key' => 'last_name',
                     'value' => ' ',
                     'compare' => '!='
                 )
             ),
-            'orderby' => 'title',
+            'orderby' => 'meta_value',
             'order' => 'ASC',
     );
     $wp_query = new WP_Query($arqs);
