@@ -39,12 +39,22 @@ function update_people($people) {
 
 	foreach($people as $person):
 		if(!person_exists($person['id'])):
+			if(!username_exists($person['id'])):
+				$params = array(
+					'user_login' => $person['id'],
+					'user_nicename' => $person['first_name'] . " " . $person['last_name'],
+					'user_email' => $person['id'] . "@ncsu.edu",
+					'role' => 'author',
+				);
+				$id = wp_insert_user($params);
+				update_user_meta($id, 'ncsu-multiauth-realm','wrap');
+			endif;
 			$post = array(
 				'post_title' => $person['first_name'] . " " . $person['last_name'],
 				'post_name' => $person['id'],
 				'post_type' => 'person',
 				'post_status' => 'publish',
-		
+				'post_author' => username_exists($person['id']),
 			);
 			$id = wp_insert_post($post);
 			update_post_meta($id, 'uid', $person['id']);
@@ -75,6 +85,11 @@ function update_people($people) {
 			update_post_meta($id, 'title', $person['title']);
 			update_post_meta($id, 'website', $person['website']);
 			update_post_meta($id, 'office', $person['office']);
+			$args = array(
+				'ID' => $id,
+				'post_author' => username_exists($person['id']),
+			);
+			wp_update_post($args);
 		endif;
 	endforeach;
 }

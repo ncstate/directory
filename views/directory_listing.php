@@ -34,7 +34,9 @@ function print_person($person) {
 				' . $img_tag . '
 			</a>
 			<div class="person_info">
-				<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
+				<a href="' . get_site_url() . '/people/' . $person->post_name . '">
+					<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
+				</a>
 				<p class="title">' . $meta['title'][0] . '</p>
 				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
 				<p class="phone">' . $meta['phone'][0] . '</p>
