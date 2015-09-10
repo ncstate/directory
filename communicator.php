@@ -129,29 +129,29 @@ function ldap_formatter($input) {
 	unset($input['count']);
 	foreach($input as $entry):
 		$name = '';
-		if($entry['ncsunickname'][0]!=null):
+		if(isset($entry['ncsunickname'][0])):
 			$name = $entry['ncsunickname'][0];
-		elseif($entry['ncsupreferredgivenname'][0]!=null):
+		elseif(isset($entry['ncsupreferredgivenname'][0])):
 			$name = $entry['ncsupreferredgivenname'][0];
 		else:
-			$name = $entry['givenname'][0];
+			$name = isset($entry['givenname'][0]) ? $entry['givenname'][0] : '';
 		endif;
 		$office = null;
-		if($entry['registeredaddress'][0]!=null):
+		if(isset($entry['registeredaddress'][0])):
 			if(strpos($entry['registeredaddress'][0], "Box")!=0):
 				$comma = strpos($entry['registeredaddress'][0], ",");
 				$office = substr($entry['registeredaddress'][0], 0, $comma);
 			endif;
 		endif;
 		$output[] = array(
-			'id' => $entry['uid'][0],
-			'email' => $entry['mail'][0],
-			'role' => $entry['ncsuprimaryrole'][0],
-			'title' => $entry['title'][0],
+			'id' => isset($entry['uid'][0]) ? $entry['uid'][0] : '',
+			'email' => isset($entry['mail'][0]) ? $entry['mail'][0] : '',
+			'role' => isset($entry['ncsuprimaryrole'][0]) ? $entry['ncsuprimaryrole'][0] : '',
+			'title' => isset($entry['title'][0]) ? $entry['title'][0] : '',
 			'first_name' => $name,
-			'last_name' => $entry['sn'][0],
-			'phone' => $entry['telephonenumber'][0],
-			'website' => $entry['ncsuwebsite'][0],
+			'last_name' => isset($entry['sn'][0]) ? $entry['sn'][0] : '',
+			'phone' => isset($entry['telephonenumber'][0]) ? $entry['telephonenumber'][0] : '',
+			'website' => isset($entry['ncsuwebsite'][0]) ? $entry['ncsuwebsite'][0] : '',
 			'office' => $office,
 		);
 	endforeach;
