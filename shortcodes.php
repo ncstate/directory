@@ -41,7 +41,13 @@ function person_info_shortcode($atts) {
 add_shortcode('person_info', 'person_info_shortcode');
 
 function directory_shortcode($atts) {
-	$group = $atts['group'];
+	$group = '';
+	if(isset($atts['group'])) {
+		$group = $atts['group'];
+	}
+	if("all" == $group) {
+		$group = '';
+	}
 	return print_directory($group);
 }
 add_shortcode('directory', 'directory_shortcode');
