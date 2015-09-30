@@ -52,6 +52,21 @@ function directory_shortcode($atts) {
 }
 add_shortcode('directory', 'directory_shortcode');
 
+function directory_list_shortcode($atts) {
+	$group = '';
+	$columns = 1;
+	if(isset($atts['group'])) {
+		$group = $atts['group'];
+	}
+	if("all" == $group) {
+		$group = '';
+	}
+	if(isset($atts['columns']) && is_numeric($atts['columns']))
+		$columns = $atts['columns'];
+	return print_directory_list($group, $columns);
+}
+add_shortcode('directory-list', 'directory_list_shortcode');
+
 /*
 [person unity_id="csthomp2"]
 	[person_info field="name"]
