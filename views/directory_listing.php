@@ -18,6 +18,7 @@ function print_directory($group) {
 }
 
 function print_person($person) {
+	$return_value = '';
 	$meta = get_post_meta($person->ID);
 	if (empty($meta['first_name'][0]))
 		return;
