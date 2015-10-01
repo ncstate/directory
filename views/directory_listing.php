@@ -83,15 +83,16 @@ function print_directory_list($group, $columns) {
 			</a></li>
 		';
 		$iterator_count++;
-		if($iterator_count == $people_column) {
+		if($iterator_count == $people_per_column) {
 			$iterator_count = 0;
 			$columnsComplete++;
-			$return_value .= '</ul></div>';
 			if($columnsComplete < $columns) {
+				$return_value .= '</ul></div>';
 				$return_value .= '<div class="'.$columns_class.'"><ul class="directory-list">';
 			}
 		}
 	endforeach;
-	$return_value .= '</div>';
+	$return_value .= '</ul></div>'; //close off the list and column
+	$return_value .= '</div>'; //close off the row
 	return $return_value;
 }
