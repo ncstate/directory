@@ -61,9 +61,9 @@ function print_directory_list($group, $columns) {
 	);
 	$people = get_posts($args);
 	$num_people = count($people);
-	$people_column = floor($num_people/$columns);
+	$people_per_column = floor($num_people/$columns);
 	if($num_people % $columns > 0) {
-		$people_column = $people_column + 1;
+		$people_per_column = $people_per_column + 1;
 	}
 	$columns_class = 'col-md-'.floor(12/$columns);
 	$return_value = '<div class="row">
