@@ -39,6 +39,7 @@ It is recommended that you place your customized versions of `index.php` and `si
 
 If you do not want to create custom views within your theme, you can use shortcodes to display information from the `People` custom post type.
 
+### Display Single Person ###
 Information about a single person can be displayed with the following syntax:
 
 ```
@@ -51,13 +52,27 @@ Information about a single person can be displayed with the following syntax:
 
 The `field` parameter corresponds to the custom field name of a `Person` post type.
 
-You can display an entire subgroup of people with the folowing syntax:
+### Display Group of People ###
+
+You can display an entire subgroup of people with the following syntax:
 
 ```
 [directory group="faculty"]
 ```
 
 The HTML output for the `directory` shortcode can be set within the `views/directory_listing.php` file of the plugin.
+
+### Display Unordered List of Group of People ###
+
+You can also display a group of people as an unordered list who's names link to their full profile with the following
+syntax:
+
+```
+[directory-list group="subgroup" columns=x]
+```
+
+where _subgroup_ is the slug of any subgroup of people you define and _column_ is the number of columns you want the list
+split into. The output can be customized within the `views/directory_listing.php` or by copying this file into your theme `ncstate-directory/views/directory_listing.php` for customization there. The default output uses Bootstrap markup for rendering.
 
 ## Removing People
 

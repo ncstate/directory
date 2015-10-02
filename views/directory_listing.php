@@ -18,6 +18,7 @@ function print_directory($group) {
 }
 
 function print_person($person) {
+	$return_value = '';
 	$meta = get_post_meta($person->ID);
 	if (empty($meta['first_name'][0]))
 		return;
@@ -46,5 +47,52 @@ function print_person($person) {
 			</div>
 		</div>
 		';
+	return $return_value;
+}
+
+function print_directory_list($group, $columns) {
+	$args = array(
+		'post_type' => 'person',
+		'subgroup' => $group,
+		'nopaging'	=> true,
+		'meta_key'  => 'last_name',
+		'orderby' => 'meta_value',
+		'order' => 'ASC',
+	);
+	$people = get_posts($args);
+	$num_people = count($people);
+	$people_per_column = floor($num_people/$columns);
+	if($num_people % $columns > 0) {
+		$people_per_column = $people_per_column + 1;
+	}
+	$columns_class = 'col-md-'.floor(12/$columns);
+	$return_value = '<div class="row">
+			<div class="'.$columns_class.'">
+			<ul class="directory-list">
+			';
+	$iterator_count = 0;
+	$columnsComplete = 0;
+	foreach($people as $person) :
+		$meta = get_post_meta($person->ID);
+		if (empty($meta['first_name'][0]))
+			return;
+		$return_value .= '
+			<li>
+			<a href="' . get_site_url() . '/people/' . $person->post_name . '" target="_blank">
+			' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'
+			</a></li>
+		';
+		$iterator_count++;
+		if($iterator_count == $people_per_column) {
+			$iterator_count = 0;
+			$columnsComplete++;
+			if($columnsComplete < $columns) {
+				$return_value .= '</ul></div>';
+				$return_value .= '<div class="'.$columns_class.'"><ul class="directory-list">';
+			}
+		}
+	endforeach;
+	$return_value .= '</ul></div>'; //close off the list and column
+	$return_value .= '</div>'; //close off the row
 	return $return_value;
 }
