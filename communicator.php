@@ -41,6 +41,8 @@ function update_people($people) {
 					'user_email' => $person['id'] . "@ncsu.edu",
 					'role' => 'author',
 				);
+
+				// TODO @see https://github.ncsu.edu/engr-wordpress/ncsu-multiauth/issues/58
 				$id = wp_insert_user($params);
 				update_user_meta($id, 'ncsu-multiauth-realm', 'wrap');
 			}
@@ -92,54 +94,55 @@ function update_people($people) {
 }
 
 function person_exists($unity_id) {
-	$args = array(
+	$posts = get_posts(array(
 		'post_type' => 'person',
 		'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
 		'meta_key' => 'uid',
 		'meta_value' => $unity_id,
-	);
-	$posts = get_posts($args);
-	if(count($posts)>0) {
+	));
+
+	if (count($posts)>0) {
 		return true;
-	} else {
-		return false;
 	}
+
+	return false;
 }
 
 function person_auto_update($unity_id) {
-	$args = array(
-                'post_type' => 'person',
-                'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
-                'meta_key' => 'uid',
-                'meta_value' => $unity_id,
-	);
-	$posts = get_posts($args);
-	if(get_post_meta($posts[0]->ID, 'auto_update', true)) {
+	$posts = get_posts(array(
+		'post_type' => 'person',
+		'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
+		'meta_key' => 'uid',
+		'meta_value' => $unity_id,
+	));
+
+	if (get_post_meta($posts[0]->ID, 'auto_update', true)) {
 		return $posts[0]->ID;
-	} else {
-		return false;
 	}
+
+	return false;
 }
 
 function ldap_formatter($input) {
 	$output = array();
-	unset($input['count']);
-	foreach($input as $entry):
-		$name = '';
-		if(isset($entry['ncsunickname'][0])):
+
+	foreach($input as $entry) {
+		if (isset($entry['ncsunickname'][0])) {
 			$name = $entry['ncsunickname'][0];
-		elseif(isset($entry['ncsupreferredgivenname'][0])):
+		} elseif (isset($entry['ncsupreferredgivenname'][0])) {
 			$name = $entry['ncsupreferredgivenname'][0];
-		else:
+		} else {
 			$name = isset($entry['givenname'][0]) ? $entry['givenname'][0] : '';
-		endif;
+		}
+
 		$office = null;
-		if(isset($entry['registeredaddress'][0])):
-			if(strpos($entry['registeredaddress'][0], "Box")!=0):
+		if (isset($entry['registeredaddress'][0])) {
+			if (strpos($entry['registeredaddress'][0], "Box") != 0) {
 				$comma = strpos($entry['registeredaddress'][0], ",");
 				$office = substr($entry['registeredaddress'][0], 0, $comma);
-			endif;
-		endif;
+			}
+		}
+
 		$output[] = array(
 			'id' => isset($entry['uid'][0]) ? $entry['uid'][0] : '',
 			'email' => isset($entry['mail'][0]) ? $entry['mail'][0] : '',
@@ -151,6 +154,7 @@ function ldap_formatter($input) {
 			'website' => isset($entry['ncsuwebsite'][0]) ? $entry['ncsuwebsite'][0] : '',
 			'office' => $office,
 		);
-	endforeach;
+	}
+
 	return $output;
 }
