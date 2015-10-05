@@ -4,7 +4,6 @@ function get_updates() {
 	$oucs = person_feed_parser('person_ouc');
 	$unity_ids = person_feed_parser('person_unity_ids');
 	
-	$people = array();
 	foreach($oucs as $ouc) {
 		if(empty($ouc)) { break; }
 		update_people(get_ouc_ldap(trim($ouc)));
@@ -14,7 +13,6 @@ function get_updates() {
 		if(empty($unity_id)) { break; }
 		update_people(get_person_ldap(trim($unity_id)));
 	}
-	
 }
 
 function get_ouc_ldap($ouc) {
