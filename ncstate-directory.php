@@ -13,6 +13,7 @@ include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';
 
+add_action('wp_enqueue_scripts', 'directory_styles');
 function directory_styles() {
 	if ( file_exists(get_stylesheet_directory() . '/ncstate-directory/css/style.css') ) {
 		wp_enqueue_style('ncstate_directory_style', get_stylesheet_directory_uri() . '/ncstate-directory/css/style.css');
@@ -20,53 +21,51 @@ function directory_styles() {
 		wp_enqueue_style('ncstate_directory_style', plugin_dir_url(__FILE__) . '/css/style.css');
 	}
 }
-add_action('wp_enqueue_scripts', 'directory_styles');
 
 // Create 'Person' custom post type
 add_action( 'init', 'create_person_post_type' );
 function create_person_post_type() {
-	register_post_type( 'person',
-		array(
-			'labels' => array(
-				'name' => __( 'People' ),
-				'singular_name' => __( 'Person' )
-			),
+	register_post_type( 'person', array(
+		'labels' => array(
+			'name' => __( 'People' ),
+			'singular_name' => __( 'Person' )
+		),
 		'public' => true,
 		'has_archive' => true,
 		'supports' => array( 'title', 'editor', 'custom-fields' ),
-		'rewrite' => array( 'slug' => 'people', 'with_front' => false ),
-		'menu_icon' => 'dashicons-id',			
-		)
-	);
+		'rewrite' => array(
+			'slug' => 'people',
+			'with_front' => false
+		),
+		'menu_icon' => 'dashicons-id',
+	));
 }
 
 // Create custom taxonomy for 'Person' CPT
 add_action( 'init', 'person_init' );
 function person_init() {
 	// create a new taxonomy
-	register_taxonomy(
-		'subgroup',
-		'person',
-		array(
-	        'labels' => array(
-	            'name' => 'Subgroup',
-	            'add_new_item' => 'Add Subgroup',
-	            'new_item_name' => "New Subgroup"
-	        ),
-	        'show_ui' => true,
-	        'show_tagcloud' => false,
-	        'hierarchical' => true,
-	        'rewrite' => array( 'with_front' => false )
-	    )
-	);
-	$args = array(
+	register_taxonomy('subgroup', 'person', array(
+		'labels' => array(
+			'name' => 'Subgroup',
+			'add_new_item' => 'Add Subgroup',
+			'new_item_name' => "New Subgroup"
+		),
+		'show_ui' => true,
+		'show_tagcloud' => false,
+		'hierarchical' => true,
+		'rewrite' => array(
+			'with_front' => false
+		)
+	));
+
+	wp_insert_term('Staff', 'subgroup', array(
 		'slug' => 'staff',
-	);
-	wp_insert_term('Staff', 'subgroup', $args);
-	$args = array(
+	));
+
+	wp_insert_term('Faculty', 'subgroup', array(
 		'slug' => 'faculty',
-	);
-	wp_insert_term('Faculty', 'subgroup', $args);
+	));
 }
 
 add_action( 'admin_menu', 'person_options' );
@@ -109,7 +108,6 @@ function person_feed_parser($option) {
 // Setting auto daily directory updates
 
 register_activation_hook(__FILE__, 'ncstate_directory_schedule');
-
 function ncstate_directory_schedule() {
 	if(!wp_next_scheduled('ncstate_directory_hourly_update')):
 		wp_schedule_event(time(), 'daily', 'ncstate_directory_hourly_update');
@@ -121,7 +119,6 @@ function ncstate_directory_hourly_update() {
 }
 
 register_deactivation_hook(__FILE__, 'ncstate_directory_unschedule');
-
 function ncstate_directory_unschedule() {
 	wp_clear_scheduled_hook('ncstate_directory_hourly_update');
 }
