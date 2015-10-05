@@ -32,10 +32,9 @@ function get_person_ldap($unity_id) {
 }
 
 function update_people($people) {
-
-	foreach($people as $person):
-		if(!person_exists($person['id'])):
-			if(!username_exists($person['id'])):
+	foreach ($people as $person) {
+		if (!person_exists($person['id'])) {
+			if (!username_exists($person['id'])) {
 				$params = array(
 					'user_login' => $person['id'],
 					'user_nicename' => $person['first_name'] . " " . $person['last_name'],
@@ -43,8 +42,9 @@ function update_people($people) {
 					'role' => 'author',
 				);
 				$id = wp_insert_user($params);
-				update_user_meta($id, 'ncsu-multiauth-realm','wrap');
-			endif;
+				update_user_meta($id, 'ncsu-multiauth-realm', 'wrap');
+			}
+
 			$post = array(
 				'post_title' => $person['first_name'] . " " . $person['last_name'],
 				'post_name' => $person['id'],
@@ -52,6 +52,7 @@ function update_people($people) {
 				'post_status' => 'publish',
 				'post_author' => username_exists($person['id']),
 			);
+
 			$id = wp_insert_post($post);
 			update_post_meta($id, 'uid', $person['id']);
 			update_post_meta($id, 'first_name', $person['first_name']);
@@ -63,16 +64,15 @@ function update_people($people) {
 			update_post_meta($id, 'website', $person['website']);
 			update_post_meta($id, 'office', $person['office']);
 			update_post_meta($id, 'auto_update', true);
-			if($person['role']=='staff'):
+
+			if ($person['role'] == 'staff') {
 				wp_set_object_terms($id, 'staff', 'subgroup');
-			elseif($person['role']=='faculty'):
+			} elseif ($person['role'] == 'faculty') {
 				wp_set_object_terms($id, 'faculty', 'subgroup');
-			elseif($person['role']=='student'):
+			} elseif ($person['role'] == 'student') {
 				wp_set_object_terms($id, 'student', 'subgroup');
-			else:
-				
-			endif;
-		elseif($id = person_auto_update($person['id'])):
+			}
+		} elseif ($id = person_auto_update($person['id'])) {
 			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'last_name', $person['last_name']);
 			update_post_meta($id, 'first_name', $person['first_name']);
@@ -81,13 +81,14 @@ function update_people($people) {
 			update_post_meta($id, 'title', $person['title']);
 			update_post_meta($id, 'website', $person['website']);
 			update_post_meta($id, 'office', $person['office']);
+
 			$args = array(
 				'ID' => $id,
 				'post_author' => username_exists($person['id']),
 			);
 			wp_update_post($args);
-		endif;
-	endforeach;
+		}
+	}
 }
 
 function person_exists($unity_id) {
