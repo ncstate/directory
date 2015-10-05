@@ -7,31 +7,38 @@ function print_directory($group) {
 		'nopaging'	=> true,
 		'meta_key'  => 'last_name',
 		'orderby' => 'meta_value',
-        'order' => 'ASC',
+		'order' => 'ASC',
 	);
+
 	$people = get_posts($args);
+
 	$return_value = '';
-	foreach($people as $person) :
+	foreach ($people as $person) {
 		$return_value .= print_person($person);
-	endforeach;
+	}
+
 	return $return_value;
 }
 
 function print_person($person) {
 	$return_value = '';
 	$meta = get_post_meta($person->ID);
-	if (empty($meta['first_name'][0]))
+
+	if (empty($meta['first_name'][0])) {
 		return;
-	
+	}
+
 	$image = wp_get_attachment_image_src($meta['image'][0], 'full');
 	if($image) {
 		$img_tag = '<img src="' . $image[0] . '" class="img-responsive" />';
 	} else {
 		$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
 	}
+
 	if(strlen($meta['phone'][0])==10) {
 		$meta['phone'][0] = substr($meta['phone'][0],0,3) . "." . substr($meta['phone'][0],3,3) . "." . substr($meta['phone'][0],6);
 	}
+
 	$return_value .= '
 		<div class="directory_entry">
 			<a href="' . get_site_url() . '/people/' . $person->post_name . '">
@@ -46,7 +53,8 @@ function print_person($person) {
 				<p class="phone">' . $meta['phone'][0] . '</p>
 			</div>
 		</div>
-		';
+	';
+
 	return $return_value;
 }
 
@@ -59,40 +67,58 @@ function print_directory_list($group, $columns) {
 		'orderby' => 'meta_value',
 		'order' => 'ASC',
 	);
+
+	$site_url = get_site_url();
 	$people = get_posts($args);
 	$num_people = count($people);
 	$people_per_column = floor($num_people/$columns);
+
 	if($num_people % $columns > 0) {
 		$people_per_column = $people_per_column + 1;
 	}
 	$columns_class = 'col-md-'.floor(12/$columns);
-	$return_value = '<div class="row">
-			<div class="'.$columns_class.'">
-			<ul class="directory-list">
-			';
+
+	$return_value = "
+		<div class='row'>
+			<div class='{$columns_class}'>
+				<ul class='directory-list'>
+	";
+
 	$iterator_count = 0;
-	$columnsComplete = 0;
-	foreach($people as $person) :
+	$columns_complete = 0;
+
+	foreach($people as $person) {
 		$meta = get_post_meta($person->ID);
-		if (empty($meta['first_name'][0]))
+		$first_name = $meta['first_name'][0];
+		$last_name = $meta['last_name'][0];
+
+		if (empty($first_name)) {
 			return;
-		$return_value .= '
+		}
+
+		$return_value .= "
 			<li>
-			<a href="' . get_site_url() . '/people/' . $person->post_name . '" target="_blank">
-			' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'
-			</a></li>
-		';
+				<a href='{$site_url}/people/{$person->post_name}' target='_blank'>{$first_name} {$last_name}</a>
+			</li>
+		";
+
 		$iterator_count++;
-		if($iterator_count == $people_per_column) {
+		if ($iterator_count == $people_per_column) {
 			$iterator_count = 0;
-			$columnsComplete++;
-			if($columnsComplete < $columns) {
-				$return_value .= '</ul></div>';
-				$return_value .= '<div class="'.$columns_class.'"><ul class="directory-list">';
+			$columns_complete++;
+			if ($columns_complete < $columns) {
+				$return_value .= "</ul></div>";
+				$return_value .= "<div class='{$columns_class}'><ul class='directory-list'>";
 			}
 		}
-	endforeach;
-	$return_value .= '</ul></div>'; //close off the list and column
-	$return_value .= '</div>'; //close off the row
+	}
+
+	// Close ending elements...
+	$return_value .= "
+				</ul>
+			</div>
+		</div>
+	";
+
 	return $return_value;
 }

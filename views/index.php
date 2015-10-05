@@ -5,13 +5,12 @@
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $group = (get_query_var('term')) ? get_query_var('term') : false;
 
-
     $arqs = array(
-            'post_type'       => 'person',
-            'subgroup'     => $group,
+            'post_type' => 'person',
+            'subgroup' => $group,
             'posts_per_page' => 20,
             'paged' => $paged,
-            'meta_key'        => 'last_name',
+            'meta_key' => 'last_name',
             'meta_query' => array(
                 array(
                     'key' => 'last_name',
@@ -42,29 +41,30 @@
         <div class="row">
     	<?php 
             if ( $wp_query->have_posts() ) :
-                while( $wp_query->have_posts() ) : $wp_query->the_post();
+                while( $wp_query->have_posts() ) {
+                    $wp_query->the_post();
                     $person = get_post();
                     echo print_person($person);
-                endwhile;
+                }
+
                 if ($number_of_pages > 1) :
-        ?>
-        <?php 
-                $args = array(
-                    'format' => 'page/%#%',
-                    'type'   => 'array',
-                    'show_all' => true,
-                    'prev_text' => '&laquo;',
-                    'next_text' => '&raquo;'
-                );
-                $links = paginate_links($args); 
+
+                    $args = array(
+                        'format' => 'page/%#%',
+                        'type'   => 'array',
+                        'show_all' => true,
+                        'prev_text' => '&laquo;',
+                        'next_text' => '&raquo;'
+                    );
+                    $links = paginate_links($args);
         ?>
             <div class="index-nav">
                 <ul class="pagination">
                     <?php 
-                        foreach($links as $link) :
+                        foreach($links as $link) {
                             $class = (strpos($link,'current')) ? ' class="active"' : '';
                             echo '<li' . $class . '>' . $link . '</li>';
-                        endforeach;
+                        }
                     ?>
                 </ul>
             </div>
