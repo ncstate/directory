@@ -1,22 +1,23 @@
 <?php
-if ( file_exists( get_stylesheet_directory() . '/ncstate-directory/views/directory_listing.php') ) :
+
+if ( file_exists( get_stylesheet_directory() . '/ncstate-directory/views/directory_listing.php') ) {
 	include get_stylesheet_directory() . '/ncstate-directory/views/directory_listing.php';
-else :
+} else {
 	include 'views/directory_listing.php';
-endif; 
+}
 
 $person_meta='';
 
 // TODO: Escape user input?
 function get_person_field($the_field) {
 	global $person_meta;
-	if($the_field=="phone"):
-		return substr($person_meta[$the_field][0],0,3) . "." . substr($person_meta[$the_field][0],3,3) . "." . substr($person_meta[$the_field][0],6);
-	elseif($the_field=="email"):
+	if ($the_field=="phone") {
+		return substr($person_meta[$the_field][0], 0, 3) . "." . substr($person_meta[$the_field][0], 3, 3) . "." . substr($person_meta[$the_field][0], 6);
+	} elseif($the_field=="email") {
 		return '<a href="mailto:' . $person_meta[$the_field][0] . '">' . $person_meta[$the_field][0] . '</a>';
-	else:	
+	} else {
 		return $person_meta[$the_field][0];
-	endif;
+	}
 }
 
 function person_shortcode($atts, $content=null) {
@@ -66,12 +67,3 @@ function directory_list_shortcode($atts) {
 	return print_directory_list($group, $columns);
 }
 add_shortcode('directory-list', 'directory_list_shortcode');
-
-/*
-[person unity_id="csthomp2"]
-	[person_info field="name"]
-	[person_info field="title"]
-	[person_info field="email"]
-	[person_info field="favorite_equation"]
-[/person]
-*/
