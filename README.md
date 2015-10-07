@@ -81,3 +81,15 @@ Due to how the plugin pulls data from the campus directory, you cannot simply de
 If you need to delete someone who was pulled through an active OUC, you will set that post to either `Draft` or `Private`.  This will be prevent the person from being listed on your public-facing site.
 
 Removing a Unity ID or OUC on the `Settings` page will not remove the associated people from WordPress.
+
+## Building the Plugin
+
+A build script is included to make it easier to create the plugin archive WordPress is expecting if you
+did a manual install of the plugin where you uploaded the archive through the web interface. To build the
+plugin like this:
+
+1. Navigate to the root of the repository.
+2. Determine where you want to store the archive before add/uploading to WordPress. We'll use `/tmp` as an example.
+3. Run `bin/build /tmp`. This places a zip-file called `ncstate-directory.zip` into `/tmp`.
+
+You can then take this file and install it on WordPress.
