@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+BUILDPATH=$1
+
+if [ ! -d "$BUILDPATH" ]; then
+    echo "Target directory for archive does not exist."
+    exit 1
+fi
+
+BUILDPATH_HUMAN=$(dirname "$BUILDPATH")
+
+if [ "$BUILDPATH" == "." ]; then
+    BUILDPATH_HUMAN="current directory"
+fi
+
+if [ "$BUILDPATH" == ".." ]; then
+    BUILDPATH_HUMAN="parent directory"
+fi
+
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ -z "$CURRENT_BRANCH" ]; then
+    echo "Current branch could not be resolved. Run from repository."
+    exit 1
+fi
+
+echo "Building plugin archive of '${CURRENT_BRANCH}' into '${BUILDPATH_HUMAN}'"
+git archive --format=zip $CURRENT_BRANCH --worktree-attributes -o $BUILDPATH/ncstate-directory.zip
