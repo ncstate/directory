@@ -44,7 +44,7 @@
 
             <?php if(have_profile_publications()): ?>
             <h3>Publications</h3>
-            <ul class="publication">
+            <ul class="publications">
                 <?php
                     foreach (the_profile_publications() as $citation) {
                         echo "<li><a href='{$citation->getLinkToLibraryCitation()}'>{$citation->title} ({$citation->year})</a></li>";
@@ -52,8 +52,19 @@
                 ?>
             </ul>
             <?php endif;?>
+
+            <?php if(have_profile_grants()): ?>
+            <h3>Grants</h3>
+            <ul class="grants">
+                <?php
+                    foreach (the_profile_grants() as $grant) {
+                        echo "<li>{$grant->title}</li>";
+                    }
+                ?>
+            </ul>
+            <?php endif;?>
         </div>
     </article>
-    
+
 <?php endwhile; endif; ?>
 <?php get_footer(); ?>
