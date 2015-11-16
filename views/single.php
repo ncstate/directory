@@ -2,7 +2,6 @@
 
 <body>
 	
-<?php include get_template_directory() . '/masthead.php'; ?>
 <div id="main-content">
 	<section class="text-mod">
 		<div id="person">
