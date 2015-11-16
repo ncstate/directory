@@ -44,6 +44,16 @@
                         <p><?php echo get_the_content(); ?></p>
                     <?php endwhile; endif; ?>
                 </div>
+
+                <?php if(have_profile_publications()): ?>
+                <ul class="publication">
+                    <?php
+                        foreach (the_profile_publications() as $citation) {
+                            echo "<li><a href='{$citation->getLinkToLibraryCitation()}'>{$citation->title}</a></li>";
+                        }
+                    ?>
+                </ul>
+                <?php endif;?>
             </div>
         </div>
     </div>
