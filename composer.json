@@ -1,0 +1,6 @@
+{
+    "name": "ncstate-ucomm/ncstate-directory",
+    "description": "WordPress plugin that interfaces with campus directory, grants and publications.",
+    "type": "project",
+    "require": {}
+}
