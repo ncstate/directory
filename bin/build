@@ -10,7 +10,7 @@ cp -r $PLUGIN_DIR /tmp/.ndwd
 echo "Running composer..."
 cd /tmp/.ndwd/ncstate-directory
 curl -sS https://getcomposer.org/installer | php -d detect_unicode=Off > /dev/null
-php composer.phar install --ignore-platform-reqs --optimize-autoloader
+php composer.phar install --no-dev --ignore-platform-reqs --optimize-autoloader
 rm composer.phar 2>&1
 
 echo "Building plugin archive..."

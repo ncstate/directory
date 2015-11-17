@@ -2,3 +2,4 @@
 config.codekit
 
 /vendor/
+phpunit.xml
