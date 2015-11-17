@@ -32,8 +32,16 @@ class CachedGrantService implements GrantService
      */
     public function getGrantsByUnityId($unityIdentifier)
     {
-        return $this->cache->remember("profile.grants.{$unityIdentifier}", 60 * 12, function() use ($unityIdentifier) {
+        return $this->cache->remember("profile.grants.{$unityIdentifier}", $this->getTtlMinutes(), function() use ($unityIdentifier) {
             return $this->service->getGrantsByUnityId($unityIdentifier);
         });
+    }
+
+    /**
+     * @return int time, in whole minutes, to keep cached values
+     */
+    private function getTtlMinutes()
+    {
+        return 60 * 12;
     }
 }

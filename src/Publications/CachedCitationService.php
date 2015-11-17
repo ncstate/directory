@@ -32,8 +32,16 @@ class CachedCitationService implements CitationService
      */
     public function getCitationsByAuthorId($authorIdentifier)
     {
-        return $this->cache->remember("profile.publications.{$authorIdentifier}", 60 * 12, function() use ($authorIdentifier) {
+        return $this->cache->remember("profile.publications.{$authorIdentifier}", $this->getTtlMinutes(), function() use ($authorIdentifier) {
             return $this->service->getCitationsByAuthorId($authorIdentifier);
         });
+    }
+
+    /**
+     * @return int time, in whole minutes, to keep cached values
+     */
+    private function getTtlMinutes()
+    {
+        return 60 * 12;
     }
 }
