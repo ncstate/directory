@@ -54,5 +54,5 @@ class AmountTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(5432100, $amountInCents, 'Amount should be able to report its value denominated in cents');
     }
-    
+
 }
