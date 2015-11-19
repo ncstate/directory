@@ -29,6 +29,11 @@ if (! function_exists('the_profile_publications')) {
             $postId = $post_id;
         }
 
+        $showPublications = get_post_meta($postId, 'show_publications', true) == '1';
+        if (! $showPublications) {
+            return [];
+        }
+
         $sprAuthorIdentifier = get_post_meta($postId, 'spr_author_id', true);
 
         if (! $sprAuthorIdentifier) {
@@ -71,7 +76,7 @@ if (! function_exists('the_profile_grants')) {
             $postId = $post_id;
         }
 
-        $showGrants = get_post_meta($postId, 'show_grants', true) == '0';
+        $showGrants = get_post_meta($postId, 'show_grants', true) == '1';
         if (! $showGrants) {
             return [];
         }
