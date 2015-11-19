@@ -8,7 +8,7 @@ class Cache
 {
     protected $prefix;
 
-    public function __construct($prefix = 'ncstate_profile_cache__')
+    public function __construct($prefix = 'pc_')
     {
         $this->prefix = $prefix;
     }
