@@ -51,7 +51,7 @@ class RestfulCitationService implements CitationService
                 $authors = [];
 
                 foreach ($rawCitation['authors'] as $rawAuthor) {
-                    $authors[] = $rawAuthor['last_name'] . ', ' . $rawAuthor['first_name'];
+                    $authors[] = $rawAuthor['last_name'] . ', ' . substr($rawAuthor['first_name'], 0, 1) . '.';
                 }
 
                 $citations[] = new Citation(
