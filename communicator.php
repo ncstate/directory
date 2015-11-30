@@ -67,6 +67,10 @@ function update_people($people) {
 			update_post_meta($id, 'office', $person['office']);
 			update_post_meta($id, 'auto_update', true);
 
+			// "Add-on" settings for determining whether to show publications or grants.
+			update_post_meta($id, 'show_publications', '0');
+			update_post_meta($id, 'show_grants', '0');
+
 			if ($person['role'] == 'staff') {
 				wp_set_object_terms($id, 'staff', 'subgroup');
 			} elseif ($person['role'] == 'faculty') {

@@ -1,0 +1,19 @@
+{
+    "name": "ncstate-ucomm/ncstate-directory",
+    "description": "WordPress plugin that interfaces with campus directory, grants and publications.",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^6.1",
+        "mathiasverraes/money": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "NCState\\": "src"
+        },
+        "files": ["src/functions.php"]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.0",
+        "mockery/mockery": "^0.9.4"
+    }
+}

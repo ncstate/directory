@@ -82,6 +82,15 @@ If you need to delete someone who was pulled through an active OUC, you will set
 
 Removing a Unity ID or OUC on the `Settings` page will not remove the associated people from WordPress.
 
+## Theme Developer Functions
+
+| Function Name                      | Description |
+| :--------------------------------- | :---------- |
+| `have_the_profile_publications`    | Returns true if the current profile has publications, false otherwise. Calling this does query the SPR web service if there is no current cache for the data. |
+| `the_profile_publications`         | Returns an `array` of [`Citation`](src/Publications/Citation.php) objects. Only works for profiles with meta field of `spr_author_id` specified. If not found, returns empty array. |
+| `have_the_profile_grants`          | Returns true if the current profile has grants, false otherwise. Calling this does query the Grants web service if there is no current cache for the data. |
+| `the_profile_grants`               | Returns an `array` of [`Grant`](src/Grants/Grant.php) objects. Only works for profiles that have specified `show_grants` to be `1` and have a valid `uid`. If not found, returns empty array. |
+
 ## Building the Plugin
 
 A build script is included to make it easier to create the plugin archive WordPress is expecting if you

@@ -9,6 +9,40 @@
  * License: MIT
  */
 
+
+/**
+ * ----------------------------------------------------------------
+ * Environment sanity check
+ * ----------------------------------------------------------------
+ * We need to make sure that we have initialized Composer correctly.
+ *
+ */
+
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+	throw new \RuntimeException('Unable to register autoloader. Has Composer been initialized?');
+}
+
+/**
+ * ----------------------------------------------------------------
+ * Register the autoloader
+ * ----------------------------------------------------------------
+ * Composer's autoloader supports PSR-4 style autoloading. We will
+ * use that to lazy load all our classes. A global functions file is
+ * also autoloaded at `src/functions.php`. Useful for any WordPress-
+ * style facades to services or utility functions.
+ *
+ */
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+
+/**
+ * ----------------------------------------------------------------
+ * Plugin bootstrapping and logic
+ * ----------------------------------------------------------------
+ *
+ */
+
 include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';

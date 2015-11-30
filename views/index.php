@@ -29,7 +29,6 @@
 <?php  get_header(); ?>
 
 <body>
-<?php include get_template_directory() . '/masthead.php'; ?>
 
 <div id="main-content" role="main">
 
