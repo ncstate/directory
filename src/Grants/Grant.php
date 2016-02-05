@@ -37,7 +37,12 @@ class Grant
      */
     public $awardAmount;
 
-    public function __construct($id, $title, $abstract, DateTime $startDate, DateTime $endDate, Amount $awardAmount)
+    /**
+     * @var string[]
+     */
+    protected $agencies = [];
+
+    public function __construct($id, $title, $abstract, DateTime $startDate, DateTime $endDate, Amount $awardAmount, array $agencies = [])
     {
         $this->id = $id;
         $this->title = $title;
@@ -45,5 +50,25 @@ class Grant
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->awardAmount = $awardAmount;
+
+        if (!is_null($agencies)) {
+            foreach ($agencies as $agency) {
+                $this->addAgency($agency);
+            }
+        }
+    }
+
+    protected function addAgency($agency)
+    {
+        if (!is_string($agency) or empty($agency)) {
+            return;
+        }
+
+        $this->agencies[] = $agency;
+    }
+
+    public function getAgencyList()
+    {
+        return implode(', ', $this->agencies);
     }
 }

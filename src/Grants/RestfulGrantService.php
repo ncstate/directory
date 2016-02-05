@@ -50,13 +50,20 @@ class RestfulGrantService implements GrantService
 
         foreach ($rawGrants as $rawGrant) {
             try {
+                $agencyNames = [];
+
+                foreach ($rawGrant['funding_agencies'] as $agency) {
+                    $agencyNames[] = $agency['name'];
+                }
+
                 $grants[] = new Grant(
                     $rawGrant['id'],
                     $rawGrant['title'],
                     $rawGrant['abstract'],
                     DateTime::createFromFormat('Y-m-d', $rawGrant['award']['start_date']),
                     DateTime::createFromFormat('Y-m-d', $rawGrant['award']['end_date']),
-                    Amount::fromWholeDollars($rawGrant['award']['amount'])
+                    Amount::fromWholeDollars($rawGrant['award']['amount']),
+                    $agencyNames
                 );
             } catch (Exception $e) {
                 continue;
