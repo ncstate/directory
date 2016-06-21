@@ -10,10 +10,11 @@ class Citation
     public $title;
     public $journal;
     public $year;
+    public $fullcitation;
 
     protected $authors;
 
-    public function __construct($id, $title, $journal, $year, array $authors = null)
+    public function __construct($id, $title, $journal, $year, array $authors = null, $fullcitation = '')
     {
         foreach(func_get_args() as $arg){
             if (empty($arg)) {
@@ -35,6 +36,7 @@ class Citation
         $this->title = $title;
         $this->journal = $journal;
         $this->year = $year;
+        $this->fullcitation = $fullcitation;
     }
 
     /**
