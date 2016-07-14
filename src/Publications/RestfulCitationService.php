@@ -59,7 +59,8 @@ class RestfulCitationService implements CitationService
                     $rawCitation['title'],
                     $rawCitation['journal'],
                     $rawCitation['year'],
-                    $authors
+                    $authors,
+                    $rawCitation['citation']
                 );
             } catch (Exception $e) {
                 continue;
