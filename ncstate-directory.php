@@ -47,6 +47,13 @@ include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';
 
+add_action( 'admin_menu', 'directory_update');
+function directory_update() {
+	if(isset($_POST['directory-update']) && current_user_can('manage_options')) {
+		get_updates();
+	}
+}
+
 add_action('wp_enqueue_scripts', 'directory_styles');
 function directory_styles() {
 	if ( file_exists(get_stylesheet_directory() . '/ncstate-directory/css/style.css') ) {
@@ -110,7 +117,6 @@ function person_options() {
 }
 
 function print_person_options() {
-	get_updates();
 	echo '<div class="wrap">';
 	echo	'<h2>People Admin</h2>';
 	echo 		'<form method="post" action="options.php">';
@@ -130,6 +136,17 @@ function print_person_options() {
 					';
 					submit_button();
 	echo		'</form>';
+				if (current_user_can('manage_options')):
+					echo '<form method="post" action="edit.php?post_type=person&page=person_options_menu_page">';
+							echo '<table class="form-table">';
+								echo '<tr valign="top">';
+									echo '<th scope="row">Repull all info from campus directory</th>';
+									echo '<td><em>This may take awhile.</em></td>';
+								echo '</tr>';
+							echo '</table>';
+							submit_button('Update from campus directory','secondary','directory-update');
+					echo '</form>';
+				endif;
 	echo '</div>';
 }
 

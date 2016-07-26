@@ -4,6 +4,9 @@ function get_updates() {
 	$oucs = person_feed_parser('person_ouc');
 	$unity_ids = person_feed_parser('person_unity_ids');
 	
+	$ds = ldap_connect("ldap.ncsu.edu");
+	ldap_bind($ds);
+	
 	foreach($oucs as $ouc) {
 		if(empty($ouc)) { break; }
 		update_people(get_ouc_ldap(trim($ouc)));
@@ -11,7 +14,7 @@ function get_updates() {
 	
 	foreach($unity_ids as $unity_id) {
 		if(empty($unity_id)) { break; }
-		update_people(get_person_ldap(trim($unity_id)));
+		update_people(get_person_ldap(trim($unity_id), $ds));
 	}
 }
 
@@ -23,9 +26,7 @@ function get_ouc_ldap($ouc) {
 	return ldap_formatter($entries);
 }
 
-function get_person_ldap($unity_id) {
-	$ds = ldap_connect("ldap.ncsu.edu");
-	ldap_bind($ds);
+function get_person_ldap($unity_id, $ds) {
 	$sr = ldap_search($ds, "ou=employees,ou=people,dc=ncsu,dc=edu", "uid=" . $unity_id, array('uid', 'mail', 'ncsuPreferredGivenName', 'sn','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
 	$entries = ldap_get_entries($ds, $sr);
 	return ldap_formatter($entries);
@@ -101,8 +102,7 @@ function person_exists($unity_id) {
 	$posts = get_posts(array(
 		'post_type' => 'person',
 		'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
-		'meta_key' => 'uid',
-		'meta_value' => $unity_id,
+		'name' => $unity_id,
 	));
 
 	if (count($posts)>0) {
@@ -129,6 +129,7 @@ function person_auto_update($unity_id) {
 
 function ldap_formatter($input) {
 	$output = array();
+	unset($input['count']);
 
 	foreach($input as $entry) {
 		if (isset($entry['ncsunickname'][0])) {
