@@ -148,6 +148,8 @@ function ncstate_directory_schedule() {
 	endif;
 }
 
+add_action('ncstate_directory_hourly_update', 'ncstate_directory_hourly_update');
+
 function ncstate_directory_hourly_update() {
 	get_updates();
 }
