@@ -3,7 +3,7 @@
  * Plugin Name: NC State Directory
  * Plugin URI: https://github.ncsu.edu/ncstate-ucomm/ncstate-events
  * Description: Creates custom post type for people that are added manually or from campus LDAP.
- * Version: 1.1
+ * Version: 1.1.1
  * Author: University Communications, NC State
  * Author URI: http://university-communications.ncsu.edu/
  * License: MIT
@@ -147,6 +147,8 @@ function ncstate_directory_schedule() {
 		wp_schedule_event(time(), 'daily', 'ncstate_directory_hourly_update');
 	endif;
 }
+
+add_action('ncstate_directory_hourly_update', 'ncstate_directory_hourly_update');
 
 function ncstate_directory_hourly_update() {
 	get_updates();
