@@ -1,7 +1,31 @@
-@import '_mixins';
-@import '_variables';
+h2.letter {
+	font-size: 4em !important;
+}
 
-div.directory_entry {
+div.directory_entry.row {
+	margin: 0.75em 0;
+	padding: 1em;
+	clear: both;
+	overflow: auto;
+	
+	&:nth-child(odd) {
+		background-color: #f2f2f2;
+	}
+	
+	p {
+		margin: 0;
+	}
+	
+	img {
+		max-width: 150px;
+		float: left;
+		margin-right: 1em;
+	}
+}
+
+// OLD STYLES
+
+div.directory_entry.grid {
 	margin-bottom: 1em;
 	float: left;
 	min-height: 25em !important;

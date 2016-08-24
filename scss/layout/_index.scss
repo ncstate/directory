@@ -1,0 +1,107 @@
+.controls {
+	background-color: #f2f2f2;
+	//padding: 1em;
+	@include clearfix();
+	
+	form {
+		width: 50%;
+		float: left;
+	}
+	
+	input {
+		padding: 16px;
+		margin: 1em 0 1em 1em;
+		height: 48px;
+		border: 1px solid #999;
+		
+		&:focus, &:hover {
+			border: 2px solid #666;
+		}
+	}
+	
+	button {
+		text-transform: none;
+		width: 48px !important;
+		height: 48px !important;
+		margin: 0;
+		padding: 0;
+		margin-left: -6px;
+		margin-top: -2px;
+		
+		.glyphicon {
+			margin-left: 0;
+			top: 2px;
+		}
+	}
+	
+	.dropdown {
+		
+		&.toggle-open {
+			ul li {
+				display: block;
+			}
+		}
+	
+		ul {
+			background-color: #e2e2e2;
+			padding: 0;
+			width: 30%;
+			height: 84px;
+			float: right;
+			margin: 0;
+		
+			li {
+				display: none;
+				background-color: #e2e2e2;
+				margin: 0;
+				clear: both;
+				@include clearfix();
+			
+				&.active {
+					display: list-item !important;
+				}
+			
+				&:before {
+					display: none;
+				}
+				
+				a, span.active {
+					padding-left: 15px;
+					display: block;
+					float: left;
+					color: #333;
+					font-size: 1.1em;
+					padding-top: 28px;
+					height: 84px;
+					width: 100%;
+					cursor: pointer;
+					
+					&:hover {
+						background-color: #d2d2d2;
+					}
+					
+					span.glyphicon {
+						margin-left: 20px;
+						display: block;
+						float: right;
+						color: #333;
+						font-size: 1.1em;
+						//padding-top: 30px;
+						height: 84px;
+						padding-right: 15px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.alphabet {
+	font-size: 1.5em;
+	clear: both;
+	
+	a {
+		padding-right: 0.4em;
+		text-decoration: underline;
+	}
+}

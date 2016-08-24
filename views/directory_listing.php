@@ -32,7 +32,7 @@ function print_person($person) {
 	if($image) {
 		$img_tag = '<img src="' . $image[0] . '" class="img-responsive" />';
 	} else {
-		$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
+		//$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
 	}
 
 	if(strlen($meta['phone'][0])==10) {
@@ -40,7 +40,7 @@ function print_person($person) {
 	}
 
 	$return_value .= '
-		<div class="directory_entry">
+		<div class="directory_entry row">
 			<a href="' . get_site_url() . '/people/' . $person->post_name . '">
 				' . $img_tag . '
 			</a>
@@ -50,6 +50,7 @@ function print_person($person) {
 				</a>
 				<p class="title">' . $meta['title'][0] . '</p>
 				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
+				<p class="office">' . $meta['office'][0] . '</p>
 				<p class="phone">' . $meta['phone'][0] . '</p>
 			</div>
 		</div>

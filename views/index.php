@@ -4,6 +4,9 @@
 
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $group = (get_query_var('term')) ? get_query_var('term') : false;
+	$subgroup = (get_query_var('subgroup')) ? get_query_var('subgroup') : false;
+	$page_id = get_page_by_title('People');
+	$page_id = $page_id->ID;
 
     $args = array(
             'post_type' => 'person',
@@ -50,12 +53,35 @@
   <div class="container">
     <div class="section-txt">
 	<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Directory';?></h1>
+		<p><?php echo get_post_meta($page_id, 'introduction', true); ?></p>
         <div class="row">
 			
-			<form method="post">
-				<input type="search" name="directory_search" />
-				<input type="submit">
-			</form>
+			<div class="controls">
+			
+				<form method="post">
+					<input type="search" name="directory_search" placeholder="Search directory" />
+					<button type="submit" class="btn btn-red btn-shortcode"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+				</form>
+				
+				<div class="dropdown">
+					<ul class="dropdown">
+						<?php
+							$term_name = get_term_by('slug', $subgroup, 'subgroup');
+							echo '<li class="active"><span class="active">' . $term_name->name . '<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
+						?>
+						<?php
+							$terms = get_post_meta($page_id, 'category_choices', true);
+							foreach($terms as $term) {
+								$term_info = get_term_by('id', $term, 'subgroup');
+								if($term_info->slug != $subgroup):
+									echo '<li><a href="' . get_term_link($term_info->term_id) . '">' . $term_info->name . '</a></li>';
+								endif;
+							}
+						?>
+					</ul>
+				</div>
+			
+			</div>
     	<?php 
             if ( $wp_query->have_posts() ) :
 				$last_letter = '';
@@ -76,8 +102,8 @@
 					$alphabet[ord($last_letter)-65][1] = true;
                     $people .= print_person($person);
                 }
-				
-				echo '<p>';
+
+				echo '<div class="alphabet">';
 				foreach($alphabet as $letter) {
 					if($letter[1] == true) {
 						echo '<a href="#' . $letter[0] . '">';
@@ -89,7 +115,7 @@
 						echo ' ';
 					}
 				}
-				echo '</p>';
+				echo '</div>';
 
 				echo $people;
 
@@ -129,3 +155,9 @@
 </div>
 
 <?php get_footer(); ?>
+
+<script type="text/javascript">
+	$('ul.dropdown').click(function() {
+		$('ul.dropdown li').toggle();
+	});
+</script>
