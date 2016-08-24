@@ -1,5 +1,20 @@
 h2.letter {
 	font-size: 4em !important;
+	display: block;
+	float: left;
+	padding-left: 18px;
+}
+
+a.back-to-top {
+	display: block;
+	float: right;
+	margin-top: 60px;
+	
+	span.glyphicon {
+		font-size: 1.7em;
+		top: 8px;
+		z-index: -1;
+	}
 }
 
 div.directory_entry.row {

@@ -66,8 +66,12 @@
 				<div class="dropdown">
 					<ul class="dropdown">
 						<?php
-							$term_name = get_term_by('slug', $subgroup, 'subgroup');
-							echo '<li class="active"><span class="active">' . $term_name->name . '<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
+							if($subgroup):
+								$term_name = get_term_by('slug', $subgroup, 'subgroup');
+								echo '<li class="active"><span class="active">' . $term_name->name . '<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
+							else:
+								echo '<li class="active"><span class="active">Filter<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
+							endif;
 						?>
 						<?php
 							$terms = get_post_meta($page_id, 'category_choices', true);
@@ -84,19 +88,14 @@
 			</div>
     	<?php 
             if ( $wp_query->have_posts() ) :
-				$last_letter = '';
 				$people = '';
-				$alphabet = array();
-				foreach(range('A','Z') as $letter) {
-					$alphabet[] = array($letter, false);
-				}
-				
+
                 while( $wp_query->have_posts() ) {
                     $wp_query->the_post();
                     $person = get_post();
 					$person_meta = get_post_meta($person->ID);
 					if(substr($person_meta['last_name'][0], 0, 1) > $last_letter) {
-						$people .= '<a name="' . substr($person_meta['last_name'][0], 0, 1) . '"></a><h2 class="letter">' . substr($person_meta['last_name'][0], 0, 1) . '</h2>';
+						$people .= '<a name="' . substr($person_meta['last_name'][0], 0, 1) . '"></a><h2 class="letter">' . substr($person_meta['last_name'][0], 0, 1) . '</h2><a href="#main-content" class="back-to-top">Back to Top <span class="glyphicon glyphicon-up-thin-arrow"></span></a>';
 					}
 					$last_letter = substr($person_meta['last_name'][0], 0, 1);
 					$alphabet[ord($last_letter)-65][1] = true;
@@ -104,16 +103,9 @@
                 }
 
 				echo '<div class="alphabet">';
-				foreach($alphabet as $letter) {
-					if($letter[1] == true) {
-						echo '<a href="#' . $letter[0] . '">';
-					}
-					echo $letter[0];
-					if($letter[1] == true) {
-						echo '</a> ';
-					} else {
-						echo ' ';
-					}
+				echo '<p>Jump to:</p>';
+				foreach(range('A','Z') as $letter) {
+					echo '<a href="#' . $letter . '">' . $letter . '</a>';
 				}
 				echo '</div>';
 
