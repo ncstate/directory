@@ -20,7 +20,7 @@ function print_directory($group) {
 	return $return_value;
 }
 
-function print_person($person) {
+function print_person($person, $categories = null) {
 	$return_value = '';
 	$meta = get_post_meta($person->ID);
 
@@ -38,6 +38,18 @@ function print_person($person) {
 	if(strlen($meta['phone'][0])==10) {
 		$meta['phone'][0] = substr($meta['phone'][0],0,3) . "." . substr($meta['phone'][0],3,3) . "." . substr($meta['phone'][0],6);
 	}
+	
+	$terms = wp_get_post_terms($person->ID, 'subgroup');
+	/*echo '<pre>';
+	var_dump($terms);
+	echo '</pre>';*/
+	
+	$subgroup_listing = array();
+	foreach($terms as $term) {
+		if(in_array($term->term_id, $categories)) {
+			$subgroup_listing[] = $term->name;
+		}
+	}
 
 	$return_value .= '
 		<div class="directory_entry row">
@@ -52,6 +64,9 @@ function print_person($person) {
 				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
 				<p class="office">' . $meta['office'][0] . '</p>
 				<p class="phone">' . $meta['phone'][0] . '</p>
+			</div>
+			<div class="subgroups">
+				<p>' . implode(', ', $subgroup_listing) . '</p>
 			</div>
 		</div>
 	';

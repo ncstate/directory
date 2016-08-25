@@ -99,7 +99,8 @@
 					}
 					$last_letter = substr($person_meta['last_name'][0], 0, 1);
 					$alphabet[ord($last_letter)-65][1] = true;
-                    $people .= print_person($person);
+					$categories_to_list = get_post_meta($page_id, 'listed_categories', true);
+                    $people .= print_person($person, $categories_to_list);
                 }
 
 				echo '<div class="alphabet">';
