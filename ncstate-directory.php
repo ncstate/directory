@@ -113,7 +113,6 @@ add_action( 'admin_menu', 'person_options' );
 function person_options() {
 	add_submenu_page('edit.php?post_type=person', 'People Admin', 'Settings', 'edit_posts', 'person_options_menu_page', 'print_person_options');
 	register_setting('person_settings', 'person_ouc');
-	register_setting('person_settings', 'person_unity_ids');
 }
 
 function print_person_options() {
@@ -127,10 +126,6 @@ function print_person_options() {
 						<tr valign="top">
 							<th scope="row">OUCs</th>
 							<td><textarea name="person_ouc" rows="4" cols="150">' . get_option('person_ouc') . '</textarea></td>
-						</tr>
-						<tr valign="top">
-							<th scope="row">Unity IDs</th>
-							<td><textarea name="person_unity_ids" rows="4" cols="150">' . get_option('person_unity_ids') . '</textarea></td>
 						</tr>
 					</table>
 					';
