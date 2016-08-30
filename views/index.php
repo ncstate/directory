@@ -106,7 +106,7 @@ include_once 'partials/leadership.php';
 						$categories_to_list = get_post_meta($page_id, 'listed_categories', true);
 					endif;
 					
-					$people .= print_person($person, $categories_to_list);
+					$people .= print_person($person, $categories_to_list, $layout);
 				endwhile;
 
 				if($layout == 'row'):

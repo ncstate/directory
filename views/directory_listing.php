@@ -20,7 +20,7 @@ function print_directory($group) {
 	return $return_value;
 }
 
-function print_person($person, $categories = null) {
+function print_person($person, $categories = null, $layout = 'grid') {
 	$return_value = '';
 	$meta = get_post_meta($person->ID);
 
@@ -49,7 +49,7 @@ function print_person($person, $categories = null) {
 	}
 
 	$return_value .= '
-		<div class="directory_entry row">
+		<div class="directory_entry ' . $layout . '">
 			<a href="' . get_site_url() . '/people/' . $person->post_name . '">
 				' . $img_tag . '
 			</a>
