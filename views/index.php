@@ -1,5 +1,7 @@
 <?php
 
+include_once 'partials/leadership.php';
+
     global $wp_query;
 
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -94,7 +96,7 @@
                     $wp_query->the_post();
                     $person = get_post();
 					$person_meta = get_post_meta($person->ID);
-					if(substr($person_meta['last_name'][0], 0, 1) > $last_letter) {
+					if(substr($person_meta['last_name'][0], 0, 1) > $last_letter && empty($_POST['directory_search'])) {
 						$people .= '<a name="' . substr($person_meta['last_name'][0], 0, 1) . '"></a><h2 class="letter">' . substr($person_meta['last_name'][0], 0, 1) . '</h2><a href="#main-content" class="back-to-top">Back to Top <span class="glyphicon glyphicon-up-thin-arrow"></span></a>';
 					}
 					$last_letter = substr($person_meta['last_name'][0], 0, 1);
@@ -109,6 +111,8 @@
 					echo '<a href="#' . $letter . '">' . $letter . '</a>';
 				}
 				echo '</div>';
+
+				echo get_leaders_html($page_id);
 
 				echo $people;
 

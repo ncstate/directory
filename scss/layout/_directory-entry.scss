@@ -17,6 +17,13 @@ a.back-to-top {
 	}
 }
 
+.leadership {
+	h2 {
+		font-size: 1.3em;
+		margin-left: 18px;
+	}
+}
+
 div.directory_entry.row {
 	margin: 0.75em 0;
 	padding: 1em;
@@ -39,7 +46,7 @@ div.directory_entry.row {
 		}
 	}
 	
-	&:nth-child(odd) {
+	&:nth-of-type(odd) {
 		background-color: #f2f2f2;
 	}
 	

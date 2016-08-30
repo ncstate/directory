@@ -73,7 +73,7 @@ function create_person_post_type() {
 		),
 		'public' => true,
 		'has_archive' => true,
-		'supports' => array( 'title', 'editor', 'custom-fields' ),
+		'supports' => array( 'title', 'editor', 'custom-fields', 'author' ),
 		'rewrite' => array(
 			'slug' => 'people',
 			'with_front' => false
@@ -122,14 +122,14 @@ function print_person_options() {
 					settings_fields('person_settings');
 					do_settings_sections('person_settings');
 					
-	echo 			'<table class="form-table>"
+	/*echo 			'<table class="form-table>"
 						<tr valign="top">
 							<th scope="row">OUCs</th>
 							<td><textarea name="person_ouc" rows="4" cols="150">' . get_option('person_ouc') . '</textarea></td>
 						</tr>
 					</table>
 					';
-					submit_button();
+					submit_button();*/
 	echo		'</form>';
 				if (current_user_can('manage_options')):
 					echo '<form method="post" action="edit.php?post_type=person&page=person_options_menu_page">';
@@ -151,7 +151,27 @@ function person_feed_parser($option) {
 	return $oucs;
 }
 
-// Setting auto daily directory updates
+/*
+ * Pulls directory information when a person post type is
+ * published or updated.
+ *
+*/
+
+add_action('publish_person', 'person_ldap_query', 10, 2);
+
+function person_ldap_query($ID, $post) {
+	$ds = ldap_connect("ldap.ncsu.edu");
+	ldap_bind($ds);
+	$unity_id = get_post_meta($post->ID, 'uid', true);
+	if(!empty($unity_id)) {
+		update_people(get_person_ldap($unity_id, $ds));
+	}
+}
+
+/*
+ * Setting auto daily directory updates
+ *
+*/
 
 register_activation_hook(__FILE__, 'ncstate_directory_schedule');
 function ncstate_directory_schedule() {

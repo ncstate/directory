@@ -40,13 +40,10 @@ function print_person($person, $categories = null) {
 	}
 	
 	$terms = wp_get_post_terms($person->ID, 'subgroup');
-	/*echo '<pre>';
-	var_dump($terms);
-	echo '</pre>';*/
 	
 	$subgroup_listing = array();
 	foreach($terms as $term) {
-		if(in_array($term->term_id, $categories)) {
+		if(!empty($categories) && in_array($term->term_id, $categories)) {
 			$subgroup_listing[] = $term->name;
 		}
 	}
@@ -61,12 +58,11 @@ function print_person($person, $categories = null) {
 					<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
 				</a>
 				<p class="title">' . $meta['title'][0] . '</p>
-				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
-				<p class="office">' . $meta['office'][0] . '</p>
-				<p class="phone">' . $meta['phone'][0] . '</p>
+				<p class="unit">' . implode(', ', $subgroup_listing) . '</p>
 			</div>
 			<div class="subgroups">
-				<p>' . implode(', ', $subgroup_listing) . '</p>
+				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
+				<p class="phone">' . $meta['phone'][0] . '</p>
 			</div>
 		</div>
 	';
