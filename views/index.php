@@ -7,7 +7,7 @@ include_once 'partials/leadership.php';
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $group = (get_query_var('term')) ? get_query_var('term') : false;
 	$subgroup = (get_query_var('subgroup')) ? get_query_var('subgroup') : false;
-	$page_id = get_page_by_title('People');
+	$page_id = get_page_by_title('People Settings');
 	$page_id = $page_id->ID;
 	$layout = get_post_meta($page_id, 'display_type', true);
 
@@ -67,12 +67,13 @@ include_once 'partials/leadership.php';
 									$term_name = get_term_by('slug', $subgroup, 'subgroup');
 									echo '<li class="active"><span class="active">' . $term_name->name . '<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
 								else:
-									echo '<li class="active"><span class="active">Filter<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
+									echo '<li class="active"><span class="active">All<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
 								endif;
 							?>
 
 							<?php
 								$terms = get_post_meta($page_id, 'category_choices', true);
+								//echo '<li><a href="/directory">All</a></li>';
 								foreach($terms as $term):
 									$term_info = get_term_by('id', $term, 'subgroup');
 									if($term_info->slug != $subgroup):
@@ -88,7 +89,6 @@ include_once 'partials/leadership.php';
 			if ( $wp_query->have_posts() ) :
 
 				$people = '';
-
 				while( $wp_query->have_posts() ):
 					$wp_query->the_post();
 					
@@ -99,7 +99,7 @@ include_once 'partials/leadership.php';
 					if($layout == 'row'):
 						if(substr($person_meta['last_name'][0], 0, 1) > $last_letter && empty($_POST['directory_search'])):
 							// Prints out anchor point and letter for directory listing
-							$people .= '<a name="' . substr($person_meta['last_name'][0], 0, 1) . '"></a><h2 class="letter">' . substr($person_meta['last_name'][0], 0, 1) . '</h2><a href="#main-content" class="back-to-top">Back to Top <span class="glyphicon glyphicon-up-thin-arrow"></span></a>';
+							$people .= '<a name="' . substr($person_meta['last_name'][0], 0, 1) . '"></a><h2 class="letter">' . substr($person_meta['last_name'][0], 0, 1) . '</h2><a href="#main-content" class="back-to-top">Back to Top</a>';
 						endif;
 						$last_letter = substr($person_meta['last_name'][0], 0, 1);
 						$alphabet[ord($last_letter)-65][1] = true;
@@ -112,9 +112,11 @@ include_once 'partials/leadership.php';
 				if($layout == 'row'):
 					echo '<div class="alphabet">';
 					echo '<p>Jump to:</p>';
-					foreach(range('A','Z') as $letter) {
-						echo '<a href="#' . $letter . '">' . $letter . '</a>';
-					}
+						echo '<div class="links">';
+						foreach(range('A','Z') as $letter) {
+							echo '<a href="#' . $letter . '">' . $letter . '</a>';
+						}
+						echo '</div>';
 					echo '</div>';
 				endif;
 

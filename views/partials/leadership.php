@@ -2,7 +2,9 @@
 
 function get_leaders_html($page_id) {
 	
-	if(!empty($_POST['directory_search'])) {
+	$group = (get_query_var('term')) ? get_query_var('term') : false;
+	
+	if(!empty($_POST['directory_search'] || !empty($group))) {
 		return '';
 	}
 

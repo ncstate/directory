@@ -55,7 +55,7 @@ function print_person($person, $categories = null, $layout = 'grid') {
 			</a>
 			<div class="person_info">
 				<a href="' . get_site_url() . '/people/' . $person->post_name . '">
-					<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
+					<p class="name">' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'' . $dean_bio . '</p>
 				</a>
 				<p class="title">' . $meta['title'][0] . '</p>
 				<p class="unit">' . implode(', ', $subgroup_listing) . '</p>

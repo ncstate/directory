@@ -5,34 +5,29 @@ h2.letter {
 	padding-left: 18px;
 }
 
-a.back-to-top {
-	display: block;
-	float: right;
-	margin-top: 60px;
-	
-	span.glyphicon {
-		font-size: 1.7em;
-		top: 8px;
-		z-index: -1;
-	}
-}
-
 .leadership {
 	h2 {
-		font-size: 1.3em;
 		margin-left: 18px;
+		
+		@media (max-width: $screen-xs-max) {
+			font-size: 1.7em !important;
+		}
 	}
 }
 
 div.directory_entry.row {
-	margin: 0.75em 0;
-	padding: 1em;
+	margin: 0;
+	padding: 1.25em;
 	clear: both;
-	overflow: auto;
+	@include clearfix();
 	
 	.person_info {
 		float: left;
 		width: 30%;
+		
+		@media (max-width: $screen-xs-max) {
+			width: 100%;
+		}
 	}
 	
 	div.subgroups {
@@ -41,13 +36,19 @@ div.directory_entry.row {
 		margin-top: 30px;
 		width: 30%;
 		
+		@media (max-width: $screen-xs-max) {
+			width: 100%;
+			margin-top: 0;
+			margin-right: 0;
+		}
+		
 		p {
 			text-align: left;
 		}
 	}
 	
 	&:nth-of-type(odd) {
-		background-color: #f2f2f2;
+		//background-color: #f2f2f2;
 	}
 	
 	p {
@@ -55,7 +56,7 @@ div.directory_entry.row {
 		font-size: 16px;
 
 		&.name {
-			font-size: 18px;
+			font-size: 20px;
 		}
 	}
 	
@@ -63,6 +64,10 @@ div.directory_entry.row {
 		max-width: 150px;
 		float: left;
 		margin-right: 1em;
+		
+		@media (max-width: $screen-xs-max) {
+			display: none;
+		}
 	}
 }
 
