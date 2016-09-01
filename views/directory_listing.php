@@ -32,7 +32,7 @@ function print_person($person, $categories = null, $layout = 'grid') {
 	if($image) {
 		$img_tag = '<img src="' . $image[0] . '" class="img-responsive" />';
 	} else {
-		//$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
+		$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
 	}
 
 	if(strlen($meta['phone'][0])==10) {

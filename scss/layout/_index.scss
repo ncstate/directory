@@ -26,7 +26,7 @@
 		}
 	}
 	
-	button {
+	.search-submit {
 		text-transform: none;
 		width: 48px !important;
 		height: 48px !important;
@@ -45,67 +45,50 @@
 		}
 	}
 	
-	.dropdown {
+	.category-dropdown {
+		position: relative;
+		float: right;
+		width: 30%;
 		
-		&.toggle-open {
-			ul li {
-				display: block;
-			}
-		}
-	
-		ul {
+		.category-dropdown-button {
 			background-color: #e2e2e2;
-			padding: 0;
-			width: 30%;
+			padding: 1rem;
 			height: 84px;
-			float: right;
 			margin: 0;
+			width: 100%;
+			text-align: left;
+			font-size: 16px;
+			border: none;
 			
-			@media (max-width: $screen-xs-max) {
-				width: 100%;
+			.glyphicon {
+				float: right;
+				margin-top: 4px;
 			}
+			
+			&:hover,
+			&:focus {
+				background-color: #d2d2d2;
+			}
+			
+			&:focus {
+				outline: none;
+			};
+		}
+	}
+	
+	.dropdown-menu {
+		background-color: #e2e2e2;
+		width: 100%;
+		border: none;
+		margin: 0;
 		
-			li {
-				display: none;
-				background-color: #e2e2e2;
-				margin: 0;
-				clear: both;
-				@include clearfix();
+		& li > a {
+			padding: 1rem;
+			white-space: normal;
 			
-				&.active {
-					display: list-item !important;
-				}
-			
-				&:before {
-					display: none;
-				}
-				
-				a, span.active {
-					padding-left: 15px;
-					display: block;
-					float: left;
-					color: #333;
-					font-size: 1.1em;
-					padding-top: 28px;
-					height: 84px;
-					width: 100%;
-					cursor: pointer;
-					
-					&:hover {
-						background-color: #d2d2d2;
-					}
-					
-					span.glyphicon {
-						margin-left: 20px;
-						display: block;
-						float: right;
-						color: #333;
-						font-size: 1.1em;
-						//padding-top: 30px;
-						height: 84px;
-						padding-right: 15px;
-					}
-				}
+			&:hover,
+			&:focus {
+				background-color: #d2d2d2;
 			}
 		}
 	}
@@ -121,6 +104,11 @@
 	p {
 		width: 100%;
 		display: block;
+		font-weight: bold;
+		margin-bottom: 12px !important;
+		text-transform: uppercase;
+		font-family: 'UniversRoman', arial, sans-serif;
+		font-size: 14px;
 	}
 	
 	.links {

@@ -57,23 +57,15 @@ include_once 'partials/leadership.php';
 				<div class="controls">
 					<form method="post">
 						<input type="search" name="directory_search" placeholder="Search directory" />
-						<button type="submit" class="btn btn-red btn-shortcode"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+						<button type="submit" class="btn btn-red search-submit btn-shortcode"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 					</form>
 				
-					<div class="dropdown">
-						<ul class="dropdown">
-							<?php
-								if($subgroup):
-									$term_name = get_term_by('slug', $subgroup, 'subgroup');
-									echo '<li class="active"><span class="active">' . $term_name->name . '<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
-								else:
-									echo '<li class="active"><span class="active">All<span class="glyphicon glyphicon-down-bracket"></span></span></li>';
-								endif;
-							?>
-
+					<div class="category-dropdown">
+						<button type="button" class="btn btn-default category-dropdown-button" data-toggle="dropdown">Choose a Category<span class="glyphicon glyphicon-down-bracket"></span></button>
+						<ul class="dropdown-menu">
+							<li><a href="<?php echo get_post_type_archive_link( 'person' ); ?>">All</a></li>
 							<?php
 								$terms = get_post_meta($page_id, 'category_choices', true);
-								//echo '<li><a href="/directory">All</a></li>';
 								foreach($terms as $term):
 									$term_info = get_term_by('id', $term, 'subgroup');
 									if($term_info->slug != $subgroup):
@@ -160,9 +152,3 @@ include_once 'partials/leadership.php';
 </div>
 
 <?php get_footer(); ?>
-
-<script type="text/javascript">
-	$('ul.dropdown').click(function() {
-		$('ul.dropdown li').toggle();
-	});
-</script>
