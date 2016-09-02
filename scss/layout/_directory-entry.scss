@@ -62,6 +62,10 @@ div.directory_entry.row {
 		float: left;
 		
 		@media (max-width: $screen-xs-max) {
+			display: none;
+		}
+		
+		@media (max-width: $screen-xs-max) {
 			width: 60%;
 			padding-bottom: 40%;
 			padding-top: 20%;	
