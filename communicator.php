@@ -34,10 +34,6 @@ function get_updates() {
 		if(empty($ouc)) { break; }
 		update_people(get_ouc_ldap(trim($ouc)));
 	}*/
-		
-		echo '<pre>';
-		var_dump($people);
-		echo '</pre>';
 	
 	foreach($people as $person) {
 		update_people(get_person_ldap(get_post_meta($person->ID, 'uid', true), $ds));

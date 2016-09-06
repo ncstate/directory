@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<body id="<?php echo seoUrl(get_the_title()); ?>-page">
+<body id="<?php echo seoUrl(get_the_title()); ?>-page person">
 	
 <?php include get_template_directory() . '/masthead.php'; ?>
 <div id="main-content">
@@ -46,25 +46,38 @@
 		</div>
 	</section>
 	
-	<section class="text-mod no-components">
+	<section class="text-mod no-components bio">
         <div class="container">
-			<div class="section-txt">     
+			<div class="section-txt">  
+				
+		    	<?php 
+                   	if($meta['research_description'][0] != NULL) :     
+						echo '<h3>Area(s) of Expertise</h3><p class="research_description">';
+						echo $meta['research_description'][0];
+						echo '</p>';
+					endif; 
+				?>   
          
             	<?php 
                 	if(get_the_content()!='') :     
-						echo '<h3>Bio</h3><p class="biography">';
+						echo '<!-- <h3>Bio</h3> --><p class="biography">';
 						the_content();
 						echo '</p>';
 					endif; 
 				?>	
-					
-		    	<?php 
-                   	if($meta['research_description'][0] != NULL) :     
-						echo '<h3>Research Description</h3><p class="research_description">';
-						echo $meta['research_description'][0];
-						echo '</p>';
-					endif; 
-				?>
+				
+				
+				<?php if(have_profile_publications()): ?>
+					<h3>Publications</h3>
+					<ul class="publications">
+						<?php
+							foreach (the_profile_publications() as $citation) {
+								echo "<li><a href='{$citation->getLinkToLibraryCitation()}'>" . trim($citation->title) . " (" . $citation->year . ")</a></li>";
+							}
+						?>
+					</ul>
+					<?php echo do_shortcode('[button]<a href="http://www.lib.ncsu.edu/repository/scholpubs/search.php?page=author&pos=1&aid=' . $meta['spr_author_id'][0] . '">View all publications</a>[/button]'); ?>
+				<?php endif;?>
 				
 				<?php
 				if(get_field('google_scholar_link')):
@@ -77,6 +90,9 @@
 				if(get_field('cv')):
 					echo '<h3>CV</h3>';
 					echo '<p><a href="' . get_field('cv') . '">View CV</a></p>';
+				elseif(!empty($meta['people_cmb_cv_file'][0])):
+					echo '<h3>CV</h3>';
+					echo '<p><a href="' . $meta['people_cmb_cv_file'][0] . '">View CV</a></p>';
 				endif;
 				?>
 
