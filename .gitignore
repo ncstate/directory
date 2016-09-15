@@ -1,5 +1,7 @@
-*/.sass-cache/*
+/.sass-cache/
 config.codekit
+/node_modules/
+style.css
 
 /vendor/
 phpunit.xml

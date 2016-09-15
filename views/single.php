@@ -28,6 +28,20 @@
 
 				?>
 
+				<?php
+				$page_id = get_page_by_title('People Settings');
+				$page_id = $page_id->ID;
+				$terms = wp_get_post_terms(get_the_ID(), 'subgroup');
+				$categories = get_post_meta($page_id, 'listed_categories', true);
+	
+				$subgroup_listing = array();
+				foreach($terms as $term) {
+					if(!empty($categories) && in_array($term->term_id, $categories)) {
+						$subgroup_listing[] = $term->name;
+					}
+				}
+				?>
+
 				<div class="person_info">
 					<div class="titles">
 						<p class="title"><?php echo $meta['title'][0]; ?></p>
@@ -37,6 +51,7 @@
 							<?php endwhile; ?>
 						<?php endif; ?>
 					</div>
+					<?php echo '<p class="unit">' . implode(', ', $subgroup_listing) . '</p>'; ?>
 					<p class="office"><?php echo $meta['office'][0]; ?></p>
 					<p class="email"><a href="mailto:<?php echo $meta['email'][0]; ?>"><?php echo $meta['email'][0]; ?></a></p>
 					<p class="phone"><?php echo '<a href="tel:' . $meta['phone'][0] . '">' . $meta['phone'][0] ?></a></p>

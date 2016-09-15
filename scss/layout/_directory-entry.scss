@@ -55,7 +55,7 @@ div.directory_entry.row {
 		font-family: $univers-condensed;
 		text-align: center;
 		background-color: #ddd;
-		margin-bottom: 28px;
+		margin-bottom: 0px;
 		margin-right: 24px;
 		padding-bottom: 39px;
 		padding-top: 39px;
@@ -179,6 +179,7 @@ div.directory_entry.grid {
 	img {
 		@include make-sm-column(3);
 		padding-left: 0;
+		padding-right: 30px;
 		
 		@media (max-width: $screen-xs-max) {
 			width: 50%;
@@ -190,6 +191,11 @@ div.directory_entry.grid {
 	
 	.person_info {
 		@include make-sm-column(6);
+		padding-left: 0;
+		
+		@media (max-width: $screen-xs-max) {
+			padding-left: 18px;
+		}
 		
 		p {
 			margin: 0;
@@ -208,8 +214,8 @@ div.directory_entry.grid {
 }
 
 .text-mod.bio {
+	margin-top: 2rem;
 	@media (max-width: $screen-xs-max) {
-		margin-top: 2rem;
 		margin-left: 5px;
 	}
 	
