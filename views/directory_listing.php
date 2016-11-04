@@ -80,7 +80,7 @@ function print_directory_list($group, $columns) {
 		'order' => 'ASC',
 	);
 
-	$site_url = get_site_url();
+	$home_url = get_home_url();
 	$people = get_posts($args);
 	$num_people = count($people);
 	$people_per_column = floor($num_people/$columns);
@@ -110,7 +110,7 @@ function print_directory_list($group, $columns) {
 
 		$return_value .= "
 			<li>
-				<a href='{$site_url}/people/{$person->post_name}' target='_blank'>{$first_name} {$last_name}</a>
+				<a href='{$home_url}/people/{$person->post_name}' target='_blank'>{$first_name} {$last_name}</a>
 			</li>
 		";
 
