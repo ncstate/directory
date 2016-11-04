@@ -1,21 +1,45 @@
 <?php
 
 function get_updates() {
-	$oucs = person_feed_parser('person_ouc');
-	$unity_ids = person_feed_parser('person_unity_ids');
+	//$oucs = person_feed_parser('person_ouc');
+	//$unity_ids = person_feed_parser('person_unity_ids');
 	
+	$args = array(
+		'post_type' => 'person',
+		'subgroup' => $group,
+		'posts_per_page' => -1,
+		'post_status' => 'publish',
+		'meta_query' => array(
+			'relation' => 'AND',
+			array(
+				'key' => 'auto_update',
+				'value' => '1',
+				'compare' => '='
+			),
+			array(
+				'key' => 'uid',
+				'value' => '',
+				'compare' => '!=',
+			)
+		),
+	);
+
+	$wp_query = new WP_Query($args);
+	$people = $wp_query->get_posts();
+
 	$ds = ldap_connect("ldap.ncsu.edu");
 	ldap_bind($ds);
 	
-	foreach($oucs as $ouc) {
+	/*foreach($oucs as $ouc) {
 		if(empty($ouc)) { break; }
 		update_people(get_ouc_ldap(trim($ouc)));
+	}*/
+	
+	foreach($people as $person) {
+		update_people(get_person_ldap(get_post_meta($person->ID, 'uid', true), $ds));
 	}
 	
-	foreach($unity_ids as $unity_id) {
-		if(empty($unity_id)) { break; }
-		update_people(get_person_ldap(trim($unity_id), $ds));
-	}
+	//wp_mail('csthomp2@ncsu.edu', 'Directory Update Complete', 'Update complete for site: ' . get_site_url());
 }
 
 function get_ouc_ldap($ouc) {
@@ -34,7 +58,8 @@ function get_person_ldap($unity_id, $ds) {
 
 function update_people($people) {
 	foreach ($people as $person) {
-		if (!person_exists($person['id'])) {
+		$person_post_id = person_exists($person['id']);
+		if (($person_post_id <= 0) || empty(get_the_title($person_post_id))) {
 			if (!username_exists($person['id'])) {
 				$params = array(
 					'user_login' => $person['id'],
@@ -49,6 +74,7 @@ function update_people($people) {
 			}
 
 			$post = array(
+				'ID' => person_exists($person['id']),
 				'post_title' => $person['first_name'] . " " . $person['last_name'],
 				'post_name' => $person['id'],
 				'post_type' => 'person',
@@ -57,10 +83,10 @@ function update_people($people) {
 			);
 
 			$id = wp_insert_post($post);
+			
 			update_post_meta($id, 'uid', $person['id']);
 			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'last_name', $person['last_name']);
-			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'email', $person['email']);
 			update_post_meta($id, 'phone', $person['phone']);
 			update_post_meta($id, 'title', $person['title']);
@@ -82,31 +108,31 @@ function update_people($people) {
 		} elseif ($id = person_auto_update($person['id'])) {
 			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'last_name', $person['last_name']);
-			update_post_meta($id, 'first_name', $person['first_name']);
 			update_post_meta($id, 'email', $person['email']);
 			update_post_meta($id, 'phone', $person['phone']);
 			update_post_meta($id, 'title', $person['title']);
 			update_post_meta($id, 'website', $person['website']);
 			update_post_meta($id, 'office', $person['office']);
-
-			$args = array(
-				'ID' => $id,
-				'post_author' => username_exists($person['id']),
-			);
-			wp_update_post($args);
 		}
 	}
 }
 
 function person_exists($unity_id) {
+	
 	$posts = get_posts(array(
 		'post_type' => 'person',
 		'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash'),
-		'name' => $unity_id,
+		'meta_query' => array(
+			array(
+				'key' => 'uid',
+				'value' => $unity_id,
+				'compare' => '='
+			),
+		),
 	));
 
 	if (count($posts)>0) {
-		return true;
+		return $posts[0]->ID;
 	}
 
 	return false;

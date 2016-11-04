@@ -20,7 +20,7 @@ function print_directory($group) {
 	return $return_value;
 }
 
-function print_person($person) {
+function print_person($person, $categories = null, $layout = 'grid') {
 	$return_value = '';
 	$meta = get_post_meta($person->ID);
 
@@ -29,26 +29,38 @@ function print_person($person) {
 	}
 
 	$image = wp_get_attachment_image_src($meta['image'][0], 'full');
-	if($image) {
-		$img_tag = '<img src="' . $image[0] . '" class="img-responsive" />';
+	if(get_option('ncstate_directory_display_images', 'true') == 'false') {
+		$img_code = '';
+	} elseif($image) {
+		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><img src="' . $image[0] . '" class="img-responsive" /></a>';
 	} else {
-		$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
+		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div></a>';
 	}
 
 	if(strlen($meta['phone'][0])==10) {
 		$meta['phone'][0] = substr($meta['phone'][0],0,3) . "." . substr($meta['phone'][0],3,3) . "." . substr($meta['phone'][0],6);
 	}
+	
+	$terms = wp_get_post_terms($person->ID, 'subgroup');
+	
+	$subgroup_listing = array();
+	foreach($terms as $term) {
+		if(!empty($categories) && in_array($term->slug, $categories)) {
+			$subgroup_listing[] = $term->name;
+		}
+	}
 
 	$return_value .= '
-		<div class="directory_entry">
-			<a href="' . get_home_url() . '/people/' . $person->post_name . '">
-				' . $img_tag . '
-			</a>
+		<div class="directory_entry ' . $layout . '">
+			' . $img_code . '
 			<div class="person_info">
-				<a href="' . get_home_url() . '/people/' . $person->post_name . '">
-					<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
+				<a href="' . get_site_url() . '/people/' . $person->post_name . '">
+					<p class="name">' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'' . $dean_bio . '</p>
 				</a>
 				<p class="title">' . $meta['title'][0] . '</p>
+				<p class="unit">' . implode(', ', $subgroup_listing) . '</p>
+			</div>
+			<div class="subgroups">
 				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
 				<p class="phone">' . $meta['phone'][0] . '</p>
 			</div>

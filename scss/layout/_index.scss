@@ -1,0 +1,156 @@
+.controls {
+	background-color: #f2f2f2;
+	//padding: 1em;
+	@include clearfix();
+	
+	form {
+		@media (max-width: $screen-xs-max) {
+			width: 100%;
+		}
+		width: 50%;
+		float: left;
+	}
+	
+	input {
+		padding: 16px;
+		margin: 1em 0 1em 1em;
+		height: 48px;
+		border: 1px solid #999;
+		
+		@media (max-width: $screen-xs-max) {
+			width: 80%;
+		}
+		
+		&:focus {
+			border: 2px solid #666;
+		}
+	}
+	
+	.search-submit {
+		text-transform: none;
+		width: 48px !important;
+		height: 48px !important;
+		margin: 0;
+		padding: 0;
+		margin-left: -6px;
+		margin-top: -2px;
+		
+		@media (max-width: $screen-xs-max) {
+			margin-top: -1px;
+		}
+		
+		.glyphicon {
+			margin-left: 0;
+			top: 2px;
+		}
+	}
+	
+	.category-dropdown {
+		position: relative;
+		float: right;
+		width: 30%;
+		
+		@media (max-width: $screen-xs-max) {
+			width: 100%;
+		}
+		
+		.category-dropdown-button {
+			background-color: #e2e2e2;
+			padding: 1rem;
+			height: 84px;
+			margin: 0;
+			width: 100%;
+			text-align: left;
+			font-size: 16px;
+			border: none;
+			
+			.glyphicon {
+				float: right;
+				margin-top: 4px;
+			}
+			
+			&:hover,
+			&:focus {
+				background-color: #d2d2d2;
+			}
+			
+			&:focus {
+				outline: none;
+			};
+		}
+	}
+	
+	.dropdown-menu {
+		background-color: #e2e2e2;
+		width: 100%;
+		border: none;
+		margin: 0;
+		
+		& li > a {
+			padding: 1rem;
+			white-space: normal;
+			
+			&:hover,
+			&:focus {
+				background-color: #d2d2d2;
+			}
+		}
+	}
+}
+
+.alphabet {
+	margin-top: 1em;
+	margin-bottom: 3em;
+	clear: both;
+	margin-left: 18px;
+	margin-right: 18px;
+	
+	p {
+		width: 100%;
+		display: block;
+		font-weight: bold;
+		margin-bottom: 12px !important;
+		text-transform: uppercase;
+		font-family: 'UniversRoman', arial, sans-serif;
+		font-size: 14px;
+	}
+	
+	.links {
+		@media (max-width: $screen-xs-max) {
+			margin-left: -11px;
+			margin-right: -11px;
+		}
+	
+		a {
+			font-size: 1.2em;
+			padding-right: 0.5em;
+			text-decoration: none;
+			display: inline-block;
+		
+			@media (max-width: $screen-xs-max) {
+				font-size: 1.7em;
+				padding-right: 0;
+				text-align: center;
+				width: 40px;
+			}
+		
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+a.back-to-top {
+	display: block;
+	float: right;
+	margin-top: 60px;
+	
+	@media (max-width: $screen-xs-max) {
+		margin-right: 18px;
+	}
+	
+	&:hover {
+		text-decoration: underline;
+	}
+}
