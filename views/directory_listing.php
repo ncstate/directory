@@ -41,11 +41,11 @@ function print_person($person) {
 
 	$return_value .= '
 		<div class="directory_entry">
-			<a href="' . get_site_url() . '/people/' . $person->post_name . '">
+			<a href="' . get_home_url() . '/people/' . $person->post_name . '">
 				' . $img_tag . '
 			</a>
 			<div class="person_info">
-				<a href="' . get_site_url() . '/people/' . $person->post_name . '">
+				<a href="' . get_home_url() . '/people/' . $person->post_name . '">
 					<p class="name"><b>' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'</b>' . $dean_bio . '</p>
 				</a>
 				<p class="title">' . $meta['title'][0] . '</p>
@@ -68,7 +68,7 @@ function print_directory_list($group, $columns) {
 		'order' => 'ASC',
 	);
 
-	$site_url = get_site_url();
+	$home_url = get_home_url();
 	$people = get_posts($args);
 	$num_people = count($people);
 	$people_per_column = floor($num_people/$columns);
@@ -98,7 +98,7 @@ function print_directory_list($group, $columns) {
 
 		$return_value .= "
 			<li>
-				<a href='{$site_url}/people/{$person->post_name}' target='_blank'>{$first_name} {$last_name}</a>
+				<a href='{$home_url}/people/{$person->post_name}' target='_blank'>{$first_name} {$last_name}</a>
 			</li>
 		";
 
