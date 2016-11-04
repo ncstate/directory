@@ -56,6 +56,23 @@ function get_person_ldap($unity_id, $ds) {
 	return ldap_formatter($entries);
 }
 
+add_action('wp_loaded', 'bulk_unity_id_import');
+function bulk_unity_id_import() {
+	$unity_ids = get_option('ncstate_directory_bulk_import_ids', false);
+	if(!empty($unity_ids)) {
+		$unity_ids = explode(",", $unity_ids);
+		
+		$ds = ldap_connect("ldap.ncsu.edu");
+		ldap_bind($ds);
+		
+		foreach($unity_ids as $unity_id) {
+			update_people(get_person_ldap($unity_id, $ds));
+		}
+		
+		update_option('ncstate_directory_bulk_import_ids', '');
+	}
+}
+
 function update_people($people) {
 	foreach ($people as $person) {
 		$person_post_id = person_exists($person['id']);
