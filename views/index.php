@@ -7,9 +7,7 @@ include_once 'partials/leadership.php';
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $group = (get_query_var('term')) ? get_query_var('term') : false;
 	$subgroup = (get_query_var('subgroup')) ? get_query_var('subgroup') : false;
-	$page_id = get_page_by_title('People Settings');
-	$page_id = $page_id->ID;
-	$layout = get_post_meta($page_id, 'display_type', true);
+	$layout = get_option('ncstate_directory_index_view_type', 'row');
 
 	$args = array(
 		'post_type' => 'person',
@@ -50,7 +48,11 @@ include_once 'partials/leadership.php';
 		<div class="section-txt">
 			<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Directory';?></h1>
 
-			<p class="lead"><?php echo get_post_meta($page_id, 'introduction', true); ?></p>
+			<?php if(is_tax('subgroup')): ?>
+				<p class="lead"><?php echo term_description(); ?></p>
+			<?php else: ?>
+				<p class="lead"><?php echo get_option('ncstate_directory_main_intro_text', ''); ?></p>
+			<?php endif; ?>
 
 			<div class="row">
 
@@ -61,13 +63,13 @@ include_once 'partials/leadership.php';
 					</form>
 				
 					<div class="category-dropdown">
-						<button type="button" class="btn btn-default category-dropdown-button" data-toggle="dropdown">Choose a Category<span class="glyphicon glyphicon-down-bracket"></span></button>
+						<button type="button" class="btn btn-default category-dropdown-button" data-toggle="dropdown">Filter By<span class="glyphicon glyphicon-down-bracket"></span></button>
 						<ul class="dropdown-menu">
 							<li><a href="<?php echo get_post_type_archive_link( 'person' ); ?>">All</a></li>
 							<?php
-								$terms = get_post_meta($page_id, 'category_choices', true);
+								$terms = explode(",", get_option('ncstate_directory_filter_subgroups', array()));
 								foreach($terms as $term):
-									$term_info = get_term_by('id', $term, 'subgroup');
+									$term_info = get_term_by('slug', $term, 'subgroup');
 									if($term_info->slug != $subgroup):
 										echo '<li><a href="' . get_term_link($term_info->term_id) . '">' . $term_info->name . '</a></li>';
 									endif;
@@ -95,7 +97,7 @@ include_once 'partials/leadership.php';
 						endif;
 						$last_letter = substr($person_meta['last_name'][0], 0, 1);
 						$alphabet[ord($last_letter)-65][1] = true;
-						$categories_to_list = get_post_meta($page_id, 'listed_categories', true);
+						$categories_to_list = explode(",", get_option('ncstate_directory_displayed_subgroups_in_index', array()));
 					endif;
 					
 					$people .= print_person($person, $categories_to_list, $layout);
@@ -112,7 +114,7 @@ include_once 'partials/leadership.php';
 					echo '</div>';
 				endif;
 
-				echo get_leaders_html($page_id);
+				echo get_leaders_html();
 
 				echo $people;
 

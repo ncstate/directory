@@ -5,7 +5,10 @@ h2.letter {
 	padding-left: 18px;
 }
 
-.leadership {
+div.leadership {
+	clear: both;
+	@include clearfix();
+	
 	h2 {
 		margin-left: 18px;
 		
@@ -106,7 +109,7 @@ div.directory_entry.row {
 div.directory_entry.grid {
 	margin-bottom: 1em;
 	float: left;
-	min-height: 25em !important;
+	min-height: 28em !important;
 	@include make-xs-column(12);
 	@include make-sm-column(6);
 	@include make-md-column(4);

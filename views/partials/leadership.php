@@ -1,6 +1,14 @@
 <?php
 
-function get_leaders_html($page_id) {
+function get_leaders_html() {
+	
+	$leaders = explode(",", get_option('ncstate_directory_leaders', ''));
+	$categories = explode(",", get_option('ncstate_directory_displayed_subgroups_in_index', ''));
+	$layout = get_option('ncstate_directory_index_view_type', 'row');
+	
+	if(empty($leaders)) {
+		return;
+	}
 	
 	$group = (get_query_var('term')) ? get_query_var('term') : false;
 	
@@ -11,12 +19,9 @@ function get_leaders_html($page_id) {
 	$leadership .= '<div class="leadership">';
 	$leadership .= '<h2>Leadership</h2>';
 
-	$leaders = get_post_meta($page_id, 'leadership', true);
-	$categories = get_post_meta($page_id, 'listed_categories', true);
-	$layout = get_post_meta($page_id, 'display_type', true);
-
 	foreach($leaders as $leader) {
-		$leadership .= print_person(get_post($leader), $categories, $layout);
+		$leader = get_page_by_path($leader, OBJECT, 'person');
+		$leadership .= print_person($leader, $categories, $layout);
 	}
 
 	$leadership .= '</div>';

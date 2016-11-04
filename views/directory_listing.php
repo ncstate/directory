@@ -29,10 +29,12 @@ function print_person($person, $categories = null, $layout = 'grid') {
 	}
 
 	$image = wp_get_attachment_image_src($meta['image'][0], 'full');
-	if($image) {
-		$img_tag = '<img src="' . $image[0] . '" class="img-responsive" />';
+	if(get_option('ncstate_directory_display_images', 'true') == 'false') {
+		$img_code = '';
+	} elseif($image) {
+		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><img src="' . $image[0] . '" class="img-responsive" /></a>';
 	} else {
-		$img_tag = '<div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div>';
+		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div></a>';
 	}
 
 	if(strlen($meta['phone'][0])==10) {
@@ -43,16 +45,14 @@ function print_person($person, $categories = null, $layout = 'grid') {
 	
 	$subgroup_listing = array();
 	foreach($terms as $term) {
-		if(!empty($categories) && in_array($term->term_id, $categories)) {
+		if(!empty($categories) && in_array($term->slug, $categories)) {
 			$subgroup_listing[] = $term->name;
 		}
 	}
 
 	$return_value .= '
 		<div class="directory_entry ' . $layout . '">
-			<a href="' . get_site_url() . '/people/' . $person->post_name . '">
-				' . $img_tag . '
-			</a>
+			' . $img_code . '
 			<div class="person_info">
 				<a href="' . get_site_url() . '/people/' . $person->post_name . '">
 					<p class="name">' . $meta['first_name'][0] . ' ' . $meta['last_name'][0] .'' . $dean_bio . '</p>

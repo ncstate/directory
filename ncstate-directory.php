@@ -46,6 +46,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';
+include 'includes/directory-plugin-settings.php';
+
+$settings = new Directory_Plugin_Template_Settings( __FILE__ );
 
 add_action( 'admin_menu', 'directory_update');
 function directory_update() {
@@ -75,7 +78,7 @@ function create_person_post_type() {
 		'has_archive' => true,
 		'supports' => array( 'title', 'editor', 'custom-fields', 'author' ),
 		'rewrite' => array(
-			'slug' => 'people',
+			'slug' => get_option('ncstate_directory_url', 'people'),
 			'with_front' => false
 		),
 		'menu_icon' => 'dashicons-id',
@@ -107,42 +110,6 @@ function person_init() {
 	wp_insert_term('Faculty', 'subgroup', array(
 		'slug' => 'faculty',
 	));
-}
-
-add_action( 'admin_menu', 'person_options' );
-function person_options() {
-	add_submenu_page('edit.php?post_type=person', 'People Admin', 'Settings', 'edit_posts', 'person_options_menu_page', 'print_person_options');
-	register_setting('person_settings', 'person_ouc');
-}
-
-function print_person_options() {
-	echo '<div class="wrap">';
-	echo	'<h2>People Admin</h2>';
-	echo 		'<form method="post" action="options.php">';
-					settings_fields('person_settings');
-					do_settings_sections('person_settings');
-					
-	/*echo 			'<table class="form-table>"
-						<tr valign="top">
-							<th scope="row">OUCs</th>
-							<td><textarea name="person_ouc" rows="4" cols="150">' . get_option('person_ouc') . '</textarea></td>
-						</tr>
-					</table>
-					';
-					submit_button();*/
-	echo		'</form>';
-				if (current_user_can('manage_options')):
-					echo '<form method="post" action="edit.php?post_type=person&page=person_options_menu_page">';
-							echo '<table class="form-table">';
-								echo '<tr valign="top">';
-									echo '<th scope="row">Repull all info from campus directory</th>';
-									echo '<td><em>This may take awhile.</em></td>';
-								echo '</tr>';
-							echo '</table>';
-							submit_button('Update from campus directory','secondary','directory-update');
-					echo '</form>';
-				endif;
-	echo '</div>';
 }
 
 function person_feed_parser($option) {
