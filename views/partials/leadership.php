@@ -6,7 +6,7 @@ function get_leaders_html() {
 	$categories = explode(",", get_option('ncstate_directory_displayed_subgroups_in_index', ''));
 	$layout = get_option('ncstate_directory_index_view_type', 'row');
 	
-	if(empty($leaders)) {
+	if(empty(get_option('ncstate_directory_leaders', ''))) {
 		return;
 	}
 	
