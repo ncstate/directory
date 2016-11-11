@@ -1,13 +1,9 @@
 {
-  "name": "college_parent",
-  "description": "WordPress theme for NCSU departments",
-  "version": "1.0.0",
+  "name": "ncstate-directory",
+  "description": "WordPress plugin that interfaces with campus directory, grants and publications.",
+  "version": "2.0.0",
   "private": true,
-  "contributors": [
-    {
-      "name": "Johnathan Smith"
-    }
-  ],
+  "contributors": [],
   "dependencies": {
     "gulp": "^3.9.0",
     "gulp-ruby-sass": "^1.0.5"

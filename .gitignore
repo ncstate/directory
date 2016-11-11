@@ -1,7 +1,20 @@
-/.sass-cache/
-config.codekit
-/node_modules/
-style.css
+# Ignore hidden files
+.*
 
-/vendor/
-phpunit.xml
+# Ignore temporary files
+*~
+
+# Annoying Windows files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Generated content
+css/*
+config.codekit
+node_modules/
+vendor/
+
+
+

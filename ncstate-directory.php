@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: NC State Directory
- * Plugin URI: https://github.ncsu.edu/ncstate-ucomm/ncstate-events
+ * Plugin URI: https://github.ncsu.edu/ncstate-ucomm/ncstate-directory
  * Description: Creates custom post type for people that are added manually or from campus LDAP.
- * Version: 2.0-beta.1
+ * Version: 2.0-beta
  * Author: University Communications, NC State
  * Author URI: http://university-communications.ncsu.edu/
  * License: MIT
@@ -18,8 +18,14 @@
  *
  */
 
-if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-	throw new \RuntimeException('Unable to register autoloader. Has Composer been initialized?');
+if (!defined('ABSPATH')) {
+    _e('Unable to determine the path to WordPress root.');
+    exit(1);
+}
+
+if (!file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
+    _e('Unable to register autoloader. Ensure Composer been initialized properly.');
+    exit(1);
 }
 
 /**
