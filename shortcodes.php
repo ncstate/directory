@@ -42,14 +42,29 @@ function person_info_shortcode($atts) {
 add_shortcode('person_info', 'person_info_shortcode');
 
 function directory_shortcode($atts) {
-	$group = '';
-	if(isset($atts['group'])) {
-		$group = $atts['group'];
-	}
-	if("all" == $group) {
+	if(isset($atts['unity_ids'])) {
+		$unity_ids = explode(',', $atts['unity_ids']);
+		$return_value = '';
+		foreach($unity_ids as $unity_id) {
+			$person = get_posts(array(
+							'name' => $unity_id,
+							'posts_per_page' => 1,
+							'post_type' => 'person',
+							'post_status' => 'publish'
+						));
+			$return_value .= print_person($person[0], null, get_option('ncstate_directory_index_view_type', 'row'));
+		}
+		return $return_value;
+	} else {
 		$group = '';
+		if(isset($atts['group'])) {
+			$group = $atts['group'];
+		}
+		if("all" == $group) {
+			$group = '';
+		}
+		return print_directory($group);
 	}
-	return print_directory($group);
 }
 add_shortcode('directory', 'directory_shortcode');
 
