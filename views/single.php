@@ -79,8 +79,25 @@
 						the_content();
 						echo '</p>';
 					endif; 
-				?>	
+				?>
 				
+				<?php if(!empty($terms)): ?>
+					<?php $term_listing = array(); ?>
+					<?php $research_areas_id = get_term_by('slug', 'research-areas', 'subgroup'); ?>
+					<?php $research_areas_id = $research_areas_id->term_id; ?>
+					<?php foreach($terms as $term): ?>
+						<?php if($term->parent == $research_areas_id): ?>
+							<?php $term_listing[] = '<li><a href="' . get_term_link($term->term_id) . '">' . $term->name . '</a></li>'; ?>
+						<?php endif; ?>
+					<?php endforeach;?>
+					
+					<?php if(!empty($term_listing)): ?>
+						<h3>Research Areas</h3>
+						<ul>
+							<?php echo implode('', $term_listing); ?>
+						</ul>
+					<?php endif; ?>
+				<?php endif; ?>
 				
 				<?php if(have_profile_publications()): ?>
 					<h3>Publications</h3>
