@@ -8,6 +8,8 @@ include_once 'partials/leadership.php';
     $group = (get_query_var('term')) ? get_query_var('term') : false;
 	$subgroup = (get_query_var('subgroup')) ? get_query_var('subgroup') : false;
 	$layout = get_option('ncstate_directory_index_view_type', 'row');
+	$terms = explode(",", get_option('ncstate_directory_filter_subgroups', array()));
+	$queried_object = get_queried_object();
 
 	$args = array(
 		'post_type' => 'person',
@@ -53,10 +55,16 @@ include_once 'partials/leadership.php';
 			<?php else: ?>
 				<p class="lead"><?php echo get_option('ncstate_directory_main_intro_text', ''); ?></p>
 			<?php endif; ?>
+			
+			<?php $filter_page = false; ?>
+			<?php if(in_array($queried_object->slug, $terms)): ?>
+				<?php $filter_page = true; ?>
+			<?php endif; ?>
 
 			<div class="row">
 
-				<div class="controls">
+				<?php if($filter_page): ?>
+					<div class="controls">
 					<form method="post">
 						<input type="search" name="directory_search" placeholder="Search directory" />
 						<button type="submit" class="btn btn-red search-submit btn-shortcode"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
@@ -67,7 +75,6 @@ include_once 'partials/leadership.php';
 						<ul class="dropdown-menu">
 							<li><a href="<?php echo get_post_type_archive_link( 'person' ); ?>">All</a></li>
 							<?php
-								$terms = explode(",", get_option('ncstate_directory_filter_subgroups', array()));
 								foreach($terms as $term):
 									$term_info = get_term_by('slug', $term, 'subgroup');
 									if($term_info->slug != $subgroup):
@@ -78,6 +85,7 @@ include_once 'partials/leadership.php';
 						</ul>
 					</div>
 				</div>
+				<?php endif; ?>
 
 			<?php 
 			if ( $wp_query->have_posts() ) :
@@ -90,7 +98,7 @@ include_once 'partials/leadership.php';
 					
 					$person_meta = get_post_meta($person->ID);
 					
-					if($layout == 'row'):
+					if($layout == 'row' && $filter_page):
 						if(substr($person_meta['last_name'][0], 0, 1) > $last_letter && empty($_POST['directory_search'])):
 							// Prints out anchor point and letter for directory listing
 							$people .= '<a name="' . substr($person_meta['last_name'][0], 0, 1) . '"></a><h2 class="letter">' . substr($person_meta['last_name'][0], 0, 1) . '</h2><a href="#main-content" class="back-to-top">Back to Top</a>';
@@ -103,7 +111,7 @@ include_once 'partials/leadership.php';
 					$people .= print_person($person, $categories_to_list, $layout);
 				endwhile;
 
-				if($layout == 'row'):
+				if($layout == 'row' && $filter_page):
 					echo '<div class="alphabet">';
 					echo '<p>Jump to:</p>';
 						echo '<div class="links">';
