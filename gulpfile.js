@@ -1,5 +1,6 @@
+require('es6-promise').polyfill();
 var gulp        = require('gulp');
-var sass        = require("gulp-ruby-sass");
+var sass        = require("gulp-sass");
 var autoprefixer = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
 var concat = require('gulp-concat'); 
@@ -10,28 +11,18 @@ var sources = {
     php_all: '*.php',
     sass_all: ['scss/*/*.scss'],
     css_dir: './css',
-    main_sass_file: 'scss/style.scss',
-    js: ['js/doubletaptogo.js','js/accessible_menu.js','js/sticky_nav.js','js/mobile_nav.js','js/main.js']
+    main_sass_file: 'scss/style.scss'
 };
 
 var alltasks = [
-    'sass',
-    'js'
+    'sass'
 ];
 
-gulp.task('js', function() {  
-  return gulp.src(sources.js)
-    .pipe(concat('main.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./js'))
-    .on('error', gutil.log)
-});
-
 gulp.task('sass', function () {
-    return sass(sources.main_sass_file)
-        .on('error', function (err) {
+    return gulp.src(sources.main_sass_file)
+        .pipe(sass().on('error', function (err) {
             console.error('Error!', err.message);
-        })
+         }))
         .pipe(autoprefixer("last 3 versions", "> 1%", "ie 8"))
         .pipe(minifyCss({compatibility: 'ie8'}))
         .pipe(gulp.dest(sources.css_dir));
