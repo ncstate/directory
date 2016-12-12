@@ -3,7 +3,7 @@
  * Plugin Name: NC State Directory
  * Plugin URI: https://github.ncsu.edu/ncstate-ucomm/ncstate-directory
  * Description: Creates custom post type for people that are added manually or from campus LDAP.
- * Version: 2.0-beta.2
+ * Version: 2.0-beta.3
  * Author: University Communications, NC State
  * Author URI: http://university-communications.ncsu.edu/
  * License: MIT

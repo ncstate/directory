@@ -2,6 +2,14 @@
 
 include_once 'partials/leadership.php';
 
+get_header(); ?>
+
+<body>
+
+<?php get_template_part('masthead'); ?>
+
+<?php
+
     global $wp_query;
 
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
@@ -9,6 +17,17 @@ include_once 'partials/leadership.php';
 	$subgroup = (get_query_var('subgroup')) ? get_query_var('subgroup') : false;
 	$layout = get_option('ncstate_directory_index_view_type', 'row');
 	$terms = explode(",", get_option('ncstate_directory_filter_subgroups', array()));
+	$repo_site = false;
+	
+	if(!empty(get_option('ncstate_directory_repo_site_subgroups')) && empty($group)):
+		$group = get_option('ncstate_directory_repo_site_subgroups');
+	endif;
+	
+	if(!empty(get_option('ncstate_directory_repo_site_id',''))):
+		$repo_site = true;
+		switch_to_blog(get_option('ncstate_directory_repo_site_id'));
+	endif;
+	
 	$queried_object = get_queried_object();
 
 	$args = array(
@@ -37,18 +56,16 @@ include_once 'partials/leadership.php';
 
 ?>
 
-<?php get_header(); ?>
-
-<body>
-
-<?php get_template_part('masthead'); ?>
-
 <div id="main-content" role="main">
 
 <section class="text-mod no-components" id="directory-index">
 	<div class="container">
 		<div class="section-txt">
-			<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Directory';?></h1>
+			<?php if($filter_page && !$repo_site): ?>
+				<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Directory';?></h1>
+			<?php else: ?>
+				<h1 class="section-head">Directory</h1>
+			<?php endif; ?>
 
 			<?php if(is_tax('subgroup')): ?>
 				<p class="lead"><?php echo term_description(); ?></p>
@@ -63,7 +80,7 @@ include_once 'partials/leadership.php';
 
 			<div class="row">
 
-				<?php if($filter_page): ?>
+				<?php if($filter_page && !$repo_site): ?>
 					<div class="controls">
 					<form method="post">
 						<input type="search" name="directory_search" placeholder="Search directory" />
@@ -154,6 +171,9 @@ include_once 'partials/leadership.php';
 			endif;
 			?>	
 			</div>
+
+			<?php restore_current_blog(); ?>
+
 		</div>
 	</div>
 </section>

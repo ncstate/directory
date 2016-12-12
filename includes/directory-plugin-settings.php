@@ -53,16 +53,11 @@ class Directory_Plugin_Template_Settings {
 	 */
 	public function settings_assets() {
 
-		// We're including the farbtastic script & styles here because they're needed for the colour picker
-		// If you're not including a colour picker field then you can leave these calls out as well as the farbtastic dependency for the wpt-admin-js script below
-		wp_enqueue_style( 'farbtastic' );
-    wp_enqueue_script( 'farbtastic' );
-
     // We're including the WP media scripts here because they're needed for the image upload field
     // If you're not including an image upload then you can leave this function call out
     wp_enqueue_media();
 
-    wp_register_script( 'wpt-admin-js', $this->assets_url . 'js/settings.js', array( 'farbtastic', 'jquery' ), '1.0.0' );
+    wp_register_script( 'wpt-admin-js', $this->assets_url . 'js/settings.js', array( 'jquery' ), '1.0.0' );
     wp_enqueue_script( 'wpt-admin-js' );
 	}
 
@@ -154,6 +149,29 @@ class Directory_Plugin_Template_Settings {
 					'id' 			=> 'leaders',
 					'label'			=> __( 'Leaders', 'ncstate-directory' ),
 					'description'	=> __( 'Provide comma separated and ordered list of individuals who should be included in leadership section of directory.', 'ncstate-directory' ),
+					'type'			=> 'text',
+					'default'		=> '',
+					'placeholder'	=> ''
+				),
+			)
+		);
+		
+		$settings['multisite'] = array(
+			'title'					=> __( 'Multisite Settings', 'ncstate-directory' ),
+			'description'			=> __( 'Allows a basic index page to be rendered with individuals from another site within the multisite install.', 'ncstate-directory' ),
+			'fields'				=> array(
+				array(
+					'id' 			=> 'repo_site_id',
+					'label'			=> __( 'Repository Site ID', 'ncstate-directory' ),
+					'description'	=> __( 'If using WordPress\'s multisite functionality, you may want to have all individuals within single site. Providing the ID of that site here will pull all data from that site.', 'ncstate-directory' ),
+					'type'			=> 'text',
+					'default'		=> '',
+					'placeholder'	=> ''
+				),
+				array(
+					'id' 			=> 'repo_site_subgroups',
+					'label'			=> __( 'Repository Site Subgroups', 'ncstate-directory' ),
+					'description'	=> __( 'Specify subgroups to filter by when displaying information from other site. Subgroups must be present in site being used as source.', 'ncstate-directory' ),
 					'type'			=> 'text',
 					'default'		=> '',
 					'placeholder'	=> ''
