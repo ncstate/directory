@@ -16,7 +16,11 @@ get_header(); ?>
     $group = (get_query_var('term')) ? get_query_var('term') : false;
 	$subgroup = (get_query_var('subgroup')) ? get_query_var('subgroup') : false;
 	$layout = get_option('ncstate_directory_index_view_type', 'row');
-	$terms = explode(",", get_option('ncstate_directory_filter_subgroups', array()));
+	if(!empty(get_option('ncstate_directory_filter_subgroups', ''))):
+		$terms = explode(",", get_option('ncstate_directory_filter_subgroups', ''));
+	else:
+		$terms = '';
+	endif;
 	$repo_site = false;
 	
 	if(!empty(get_option('ncstate_directory_repo_site_subgroups')) && empty($group)):
@@ -75,6 +79,10 @@ get_header(); ?>
 			
 			<?php $filter_page = false; ?>
 			<?php if(in_array($queried_object->slug, $terms)): ?>
+				<?php $filter_page = true; ?>
+			<?php endif; ?>
+			
+			<?php if(!empty($terms) && $queried_object->name == 'person'): ?>
 				<?php $filter_page = true; ?>
 			<?php endif; ?>
 
@@ -172,7 +180,11 @@ get_header(); ?>
 			?>	
 			</div>
 
-			<?php restore_current_blog(); ?>
+			<?php 
+				if($repo_site):
+					restore_current_blog();
+				endif;
+			?>
 
 		</div>
 	</div>
