@@ -45,13 +45,13 @@ function get_updates() {
 function get_ouc_ldap($ouc) {
 	$ds = ldap_connect("ldap.ncsu.edu");
 	ldap_bind($ds);
-	$sr = ldap_search($ds, "ou=employees,ou=people,dc=ncsu,dc=edu", "departmentNumber=" . $ouc, array('uid', 'mail', 'ncsuPreferredGivenName', 'ncsupreferredsurname','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
+	$sr = ldap_search($ds, "ou=employees,ou=people,dc=ncsu,dc=edu", "departmentNumber=" . $ouc, array('uid', 'mail', 'ncsuPreferredGivenName', 'ncsuPreferredSurName','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
 	$entries = ldap_get_entries($ds, $sr);
 	return ldap_formatter($entries);
 }
 
 function get_person_ldap($unity_id, $ds) {
-	$sr = ldap_search($ds, "ou=people,dc=ncsu,dc=edu", "uid=" . $unity_id, array('uid', 'mail', 'ncsuPreferredGivenName', 'ncsupreferredsurname','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
+	$sr = ldap_search($ds, "ou=people,dc=ncsu,dc=edu", "uid=" . $unity_id, array('uid', 'mail', 'ncsuPreferredGivenName', 'ncsuPreferredSurName','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
 	$entries = ldap_get_entries($ds, $sr);
 	return ldap_formatter($entries);
 }
@@ -197,7 +197,7 @@ function ldap_formatter($input) {
 			'role' => isset($entry['ncsuprimaryrole'][0]) ? $entry['ncsuprimaryrole'][0] : '',
 			'title' => isset($entry['title'][0]) ? $entry['title'][0] : '',
 			'first_name' => $name,
-			'last_name' => isset($entry['sn'][0]) ? $entry['sn'][0] : '',
+			'last_name' => isset($entry['ncsupreferredsurname'][0]) ? $entry['ncsupreferredsurname'][0] : '',
 			'phone' => isset($entry['telephonenumber'][0]) ? $entry['telephonenumber'][0] : '',
 			'website' => isset($entry['ncsuwebsite'][0]) ? $entry['ncsuwebsite'][0] : '',
 			'office' => $office,
