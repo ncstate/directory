@@ -65,7 +65,7 @@ get_header(); ?>
 <section class="text-mod no-components" id="directory-index">
 	<div class="container">
 		<div class="section-txt">
-			<?php if($filter_page && !$repo_site): ?>
+			<?php if(($filter_page && !$repo_site) || is_tax('subgroup')): ?>
 				<h1 class="section-head"><?php echo (single_cat_title('',false)) ? single_cat_title('', false) : 'Directory';?></h1>
 			<?php else: ?>
 				<h1 class="section-head">Directory</h1>
