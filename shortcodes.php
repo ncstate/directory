@@ -11,7 +11,7 @@ $person_meta='';
 // TODO: Escape user input?
 function get_person_field($the_field) {
 	global $person_meta;
-	if ($the_field=="phone") {
+	if ($the_field=="phone" && strlen($person_meta[$the_field][0])==10) {
 		return substr($person_meta[$the_field][0], 0, 3) . "." . substr($person_meta[$the_field][0], 3, 3) . "." . substr($person_meta[$the_field][0], 6);
 	} elseif($the_field=="email") {
 		return '<a href="mailto:' . $person_meta[$the_field][0] . '">' . $person_meta[$the_field][0] . '</a>';
