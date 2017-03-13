@@ -78,7 +78,7 @@ get_header(); ?>
 			<?php endif; ?>
 			
 			<?php $filter_page = false; ?>
-			<?php if(in_array($queried_object->slug, $terms)): ?>
+			<?php if(is_array($terms) && in_array($queried_object->slug, $terms)): ?>
 				<?php $filter_page = true; ?>
 			<?php endif; ?>
 			
