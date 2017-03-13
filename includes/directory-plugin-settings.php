@@ -140,7 +140,7 @@ class Directory_Plugin_Template_Settings {
 				array(
 					'id' 			=> 'displayed_subgroups_in_index',
 					'label'			=> __( 'Displayed Subgroups', 'ncstate-directory' ),
-					'description'	=> __( 'Listing of subgroups to display within a person\'s index view listing.', 'ncstate-directory' ),
+					'description'	=> __( 'Listing of subgroups to display within a person\'s index view listing. Should be a comma separated list of subgroup slugs.', 'ncstate-directory' ),
 					'type'			=> 'text',
 					'default'		=> '',
 					'placeholder'	=> ''
