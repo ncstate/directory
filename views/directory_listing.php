@@ -12,10 +12,11 @@ function print_directory($group) {
 
 	$people = get_posts($args);
 
-	$return_value = '';
+	$return_value = '<div class="ncstate-directory">';
 	foreach ($people as $person) {
 		$return_value .= print_person($person);
 	}
+	$return_value .= '</div>';
 
 	return $return_value;
 }
