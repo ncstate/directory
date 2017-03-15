@@ -139,9 +139,11 @@
 								echo get_sub_field('degree_program');
 								echo ', ';
 								echo get_sub_field('school');
-								echo ' (';									
-								echo get_sub_field('year_earned');
-								echo ')<br />';		
+								if(!empty(get_sub_field('year_earned'))):
+									echo ' (';									
+									echo get_sub_field('year_earned');
+									echo ')<br />';		
+								endif;
 								}
 							echo "</p>";
 					endif;						
