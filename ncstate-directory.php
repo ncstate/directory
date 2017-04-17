@@ -3,10 +3,9 @@
  * Plugin Name: NC State Directory
  * Plugin URI: https://github.ncsu.edu/ncstate-ucomm/ncstate-directory
  * Description: Creates custom post type for people that are added manually or from campus LDAP.
- * Version: 2.0-beta.4
+ * Version: 2.0-beta.5
  * Author: University Communications, NC State
  * Author URI: http://university-communications.ncsu.edu/
- * License: MIT
  */
 
 
@@ -88,6 +87,8 @@ function create_person_post_type() {
 			'with_front' => false
 		),
 		'menu_icon' => 'dashicons-id',
+		'capability_type' => array('ncstate_directory_user','ncstate_directory_users'),
+		'map_meta_cap' => true,
 	));
 }
 
@@ -165,3 +166,72 @@ function ncstate_directory_unschedule() {
 }
 
 // End daily updates section
+
+/*
+ * Directory User Role and Capabilities
+ *
+*/
+
+
+function ncstate_directory_add_directory_user_role() {
+	add_role('ncstate_directory_user',
+		'Directory User',
+		array(
+			'read' => true,
+			'edit_posts' => false,
+			'delete_posts' => false,
+			'publish_posts' => false,
+			'upload_files' => true,
+		)
+	);
+}
+register_activation_hook( __FILE__, 'ncstate_directory_add_directory_user_role' );
+
+add_action('admin_init','ncstate_directory_add_role_caps',999);
+function ncstate_directory_add_role_caps() {
+
+	// Add the roles you'd like to administer the custom post types
+	$roles = array('ncstate_directory_user');
+
+	// Loop through each role and assign capabilities
+	foreach($roles as $the_role) { 
+
+		$role = get_role($the_role);
+
+		$role->add_cap( 'read' );
+		$role->add_cap( 'read_ncstate_directory_user');
+		//$role->add_cap( 'read_private_ncstate_directory_users' );
+		$role->add_cap( 'edit_ncstate_directory_user' );
+		$role->add_cap( 'edit_ncstate_directory_users' );
+		//$role->add_cap( 'edit_others_ncstate_directory_users' );
+		$role->add_cap( 'edit_published_ncstate_directory_users' );
+		//$role->add_cap( 'publish_ncstate_directory_users' );
+		//$role->add_cap( 'delete_others_ncstate_directory_users' );
+		//$role->add_cap( 'delete_private_ncstate_directory_users' );
+		//$role->add_cap( 'delete_published_ncstate_directory_users' );
+
+	}
+	
+	// Add the roles you'd like to administer the custom post types
+	$roles = array('editor','administrator');
+
+	// Loop through each role and assign capabilities
+	foreach($roles as $the_role) { 
+
+		$role = get_role($the_role);
+
+		$role->add_cap( 'read' );
+		$role->add_cap( 'read_ncstate_directory_user');
+		$role->add_cap( 'read_private_ncstate_directory_users' );
+		$role->add_cap( 'edit_ncstate_directory_user' );
+		$role->add_cap( 'edit_ncstate_directory_users' );
+		$role->add_cap( 'edit_others_ncstate_directory_users' );
+		$role->add_cap( 'edit_published_ncstate_directory_users' );
+		$role->add_cap( 'publish_ncstate_directory_users' );
+		$role->add_cap( 'delete_others_ncstate_directory_users' );
+		$role->add_cap( 'delete_private_ncstate_directory_users' );
+		$role->add_cap( 'delete_published_ncstate_directory_users' );
+
+	}
+
+}
