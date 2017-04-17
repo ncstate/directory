@@ -82,7 +82,7 @@ function update_people($people) {
 					'user_login' => $person['id'],
 					'user_nicename' => $person['first_name'] . " " . $person['last_name'],
 					'user_email' => $person['id'] . "@ncsu.edu",
-					'role' => 'author',
+					'role' => 'ncstate_directory_user',
 				);
 
 				// TODO @see https://github.ncsu.edu/engr-wordpress/ncsu-multiauth/issues/58
