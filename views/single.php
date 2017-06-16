@@ -27,6 +27,25 @@
 					endif;
 
 				?>
+				
+				
+				
+				
+				<?php
+				$group_ID = 257;
+
+				$fields = array();
+				$fields = apply_filters('acf/field_group/get_fields', $fields, $group_ID);
+				$fields = acf_get_fields_by_id($group_ID);
+
+				echo "<pre>";
+				print_r($fields);
+				echo "</pre>";
+				?>
+				
+				
+				
+				
 
 				<?php
 				$page_id = get_page_by_title('People Settings');

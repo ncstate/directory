@@ -1,8 +1,6 @@
 <?php
 
 function get_updates() {
-	//$oucs = person_feed_parser('person_ouc');
-	//$unity_ids = person_feed_parser('person_unity_ids');
 	
 	$args = array(
 		'post_type' => 'person',
@@ -29,25 +27,12 @@ function get_updates() {
 
 	$ds = ldap_connect("ldap.ncsu.edu");
 	ldap_bind($ds);
-	
-	/*foreach($oucs as $ouc) {
-		if(empty($ouc)) { break; }
-		update_people(get_ouc_ldap(trim($ouc)));
-	}*/
-	
+
 	foreach($people as $person) {
 		update_people(get_person_ldap(get_post_meta($person->ID, 'uid', true), $ds));
 	}
 	
 	//wp_mail('csthomp2@ncsu.edu', 'Directory Update Complete', 'Update complete for site: ' . get_site_url());
-}
-
-function get_ouc_ldap($ouc) {
-	$ds = ldap_connect("ldap.ncsu.edu");
-	ldap_bind($ds);
-	$sr = ldap_search($ds, "ou=employees,ou=people,dc=ncsu,dc=edu", "departmentNumber=" . $ouc, array('uid', 'mail', 'ncsuPreferredGivenName', 'ncsuPreferredSurName','sn','title', 'ncsuWebSite', 'telephoneNumber', 'ncsuPrimaryRole', 'registeredAddress', 'givenName', 'ncsuNickname'));
-	$entries = ldap_get_entries($ds, $sr);
-	return ldap_formatter($entries);
 }
 
 function get_person_ldap($unity_id, $ds) {
@@ -115,6 +100,9 @@ function update_people($people) {
 			update_post_meta($id, 'show_publications', '0');
 			update_post_meta($id, 'show_grants', '0');
 
+			// TODO Needs to better handle individuals who might have multiple roles
+			// Primary Role field isn't consistently used yet
+			// Roles can become muddled for student workers and employees taking classes
 			if ($person['role'] == 'staff') {
 				wp_set_object_terms($id, 'staff', 'subgroup');
 			} elseif ($person['role'] == 'faculty') {

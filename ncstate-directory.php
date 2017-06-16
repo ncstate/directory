@@ -8,7 +8,6 @@
  * Author URI: http://university-communications.ncsu.edu/
  */
 
-
 /**
  * ----------------------------------------------------------------
  * Environment sanity check
@@ -39,6 +38,10 @@ if (!file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
+
+//$test = new NCState\People\PersonService();
+
+//exit();
 
 
 /**
