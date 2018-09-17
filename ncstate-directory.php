@@ -52,6 +52,7 @@ include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';
 include 'includes/directory-plugin-settings.php';
+include 'user_account_linker.php';
 
 $settings = new Directory_Plugin_Template_Settings( __FILE__ );
 

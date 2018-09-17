@@ -87,7 +87,7 @@ class Directory_Plugin_Template_Settings {
 					'label'			=> __( 'Directory URL Structure' , 'ncstate-directory' ),
 					'description'	=> __( 'This is the URL subdirectory where the directory will be available. https://your-site.ncsu.edu/subdirectory', 'ncstate-directory' ),
 					'type'			=> 'text',
-					'default'		=> 'people',
+					'default'		=> '',
 					'placeholder'	=> __( 'people', 'ncstate-directory' )
 				),
 				array(
@@ -394,6 +394,8 @@ class Directory_Plugin_Template_Settings {
 		$html .= '</div>' . "\n";
 
 		echo $html;
+		
+		user_account_link();
 	}
 
 }

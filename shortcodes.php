@@ -63,7 +63,13 @@ function directory_shortcode($atts) {
 		if("all" == $group) {
 			$group = '';
 		}
-		return print_directory($group);
+		$layout = 'grid';
+		if(!empty($atts['layout'])) {
+			if($atts['layout'] == 'row') {
+				$layout = 'row';
+			}
+		}
+		return print_directory($group, $layout);
 	}
 }
 add_shortcode('directory', 'directory_shortcode');

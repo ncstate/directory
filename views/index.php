@@ -90,7 +90,7 @@ get_header(); ?>
 
 				<?php if($filter_page && !$repo_site): ?>
 					<div class="controls">
-					<form method="post">
+					<form method="post" class="unstyled">
 						<input type="search" name="directory_search" placeholder="Search directory" />
 						<button type="submit" class="btn btn-red search-submit btn-shortcode"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 					</form>

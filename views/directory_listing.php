@@ -1,6 +1,6 @@
 <?php
 
-function print_directory($group) {
+function print_directory($group, $layout = 'grid') {
 	$args = array(
 		'post_type' => 'person',
 		'subgroup' => $group,
@@ -14,7 +14,7 @@ function print_directory($group) {
 
 	$return_value = '<div class="ncstate-directory">';
 	foreach ($people as $person) {
-		$return_value .= print_person($person);
+		$return_value .= print_person($person, null, $layout);
 	}
 	$return_value .= '</div>';
 
