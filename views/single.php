@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<body id="<?php echo seoUrl(get_the_title()); ?>-page person">
+<body id="person">
 	
 <?php include get_template_directory() . '/masthead.php'; ?>
 <div id="main-content">
@@ -65,14 +65,6 @@
         <div class="container">
 			<div class="section-txt">  
 				
-		    	<?php 
-                   	if($meta['research_description'][0] != NULL) :     
-						echo '<h3>Area(s) of Expertise</h3><p class="research_description">';
-						echo $meta['research_description'][0];
-						echo '</p>';
-					endif; 
-				?>   
-         
             	<?php 
                 	if(get_the_content()!='') :     
 						echo '<!-- <h3>Bio</h3> --><p class="biography">';
@@ -81,23 +73,13 @@
 					endif; 
 				?>
 				
-				<?php if(!empty($terms)): ?>
-					<?php $term_listing = array(); ?>
-					<?php $research_areas_id = get_term_by('slug', 'research-areas', 'subgroup'); ?>
-					<?php $research_areas_id = $research_areas_id->term_id; ?>
-					<?php foreach($terms as $term): ?>
-						<?php if($term->parent == $research_areas_id): ?>
-							<?php $term_listing[] = '<li><a href="' . get_term_link($term->term_id) . '">' . $term->name . '</a></li>'; ?>
-						<?php endif; ?>
-					<?php endforeach;?>
-					
-					<?php if(!empty($term_listing)): ?>
-						<h3>Research Areas</h3>
-						<ul>
-							<?php echo implode('', $term_listing); ?>
-						</ul>
-					<?php endif; ?>
-				<?php endif; ?>
+		    	<?php 
+                   	if($meta['research_description'][0] != NULL) :     
+						echo '<h3>Area(s) of Expertise</h3><p class="research_description">';
+						echo $meta['research_description'][0];
+						echo '</p>';
+					endif; 
+				?>
 				
 				<?php if(have_profile_publications()): ?>
 					<h3>Publications</h3>
@@ -108,7 +90,7 @@
 							}
 						?>
 					</ul>
-					<?php echo do_shortcode('[button]<a href="http://www.lib.ncsu.edu/repository/scholpubs/search.php?page=author&pos=1&aid=' . $meta['spr_author_id'][0] . '">View all publications</a>[/button]'); ?>
+					<?php echo do_shortcode('<a href="http://www.lib.ncsu.edu/repository/scholpubs/search.php?page=author&pos=1&aid=' . $meta['spr_author_id'][0] . '">View all publications</a>'); ?>
 				<?php endif;?>
 				
 				<?php
@@ -130,23 +112,27 @@
 
 				<?php 
 					if(get_field('education')):
-							echo '<h3>Education</h3><p class="education">';					
+							echo '<h3>Education</h3><p class="education">';
 							while ( has_sub_field('education'))
 								{
 								echo '<strong>';
 								echo get_sub_field('type_of_degree');
-								echo '</strong>, ';
+								echo '</strong>';
+								if(!empty(get_sub_field('degree_program'))):
+									echo ', ';
+									echo get_sub_field('degree_program');
+								endif;
 								echo get_sub_field('degree_program');
 								echo ', ';
 								echo get_sub_field('school');
 								if(!empty(get_sub_field('year_earned'))):
-									echo ' (';									
+									echo ' (';
 									echo get_sub_field('year_earned');
-									echo ')<br />';		
+									echo ')<br />';
 								endif;
 								}
 							echo "</p>";
-					endif;						
+					endif;
 				?>
 				
 				<?php
