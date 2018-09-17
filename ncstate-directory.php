@@ -90,6 +90,7 @@ function create_person_post_type() {
 		'menu_icon' => 'dashicons-id',
 		'capability_type' => array('ncstate_directory_user','ncstate_directory_users'),
 		'map_meta_cap' => true,
+		'show_in_rest' => true,
 	));
 }
 
@@ -111,6 +112,7 @@ function person_init() {
 		)
 	));
 
+	// TODO: Need to put in conditional that checks if these terms already exist
 	wp_insert_term('Staff', 'subgroup', array(
 		'slug' => 'staff',
 	));
@@ -125,6 +127,8 @@ function person_feed_parser($option) {
 	$oucs = explode(",", $raw);
 	return $oucs;
 }
+
+register_meta('post', 'first_name', array('type' => 'string', 'show_in_rest' => true));
 
 /*
  * Pulls directory information when a person post type is
@@ -236,3 +240,4 @@ function ncstate_directory_add_role_caps() {
 	}
 
 }
+
