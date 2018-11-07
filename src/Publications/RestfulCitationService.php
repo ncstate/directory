@@ -15,7 +15,7 @@ class RestfulCitationService implements CitationService
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'http://www.webtools.ncsu.edu/spr/api/',
+            'base_uri' => 'https://ci.lib.ncsu.edu/api/v1/',
             'verify' => false
         ]);
     }
@@ -32,7 +32,7 @@ class RestfulCitationService implements CitationService
     {
         $citations = [];
 
-        $response = $this->client->get("authors/{$authorIdentifier}/citations");
+        $response = $this->client->get("authors/{$authorIdentifier}");
 
         if ($response->getStatusCode() !== 200) {
             return [];
@@ -40,27 +40,33 @@ class RestfulCitationService implements CitationService
 
         $data = json_decode($response->getBody(), true);
 
-        if (! isset($data['items']) or empty($data['items'])) {
+        if (! isset($data[0]) or empty($data[0]) or json_last_error() !== JSON_ERROR_NONE) {
             return [];
         }
 
-        $rawCitations = $data['items'];
+        $rawCitations = $data[0]['citations'];
 
         foreach ($rawCitations as $rawCitation) {
             try {
-                $authors = [];
-
-                foreach ($rawCitation['authors'] as $rawAuthor) {
-                    $authors[] = $rawAuthor['last_name'] . ', ' . substr($rawAuthor['first_name'], 0, 1) . '.';
-                }
+                $authors = explode(' and ', $rawCitation['author']);
+                $citation = sprintf(
+                    "%s (%s). %s. %s, %s(%s), %s.",
+                    $rawCitation['author'],
+                    $rawCitation['source']['year'],
+                    $rawCitation['source']['title'],
+                    $rawCitation['source']['journal'],
+                    $rawCitation['volume'],
+                    $rawCitation['number'],
+                    $rawCitation['pages']
+                );
 
                 $citations[] = new Citation(
-                    $rawCitation['id'],
-                    $rawCitation['title'],
-                    $rawCitation['journal'],
-                    $rawCitation['year'],
+                    $rawCitation['source']['id'],
+                    $rawCitation['source']['title'],
+                    $rawCitation['source']['journal'],
+                    $rawCitation['source']['year'],
                     $authors,
-                    $rawCitation['citation']
+                    $citation
                 );
             } catch (Exception $e) {
                 continue;
