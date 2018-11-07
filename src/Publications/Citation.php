@@ -58,6 +58,6 @@ class Citation
 
     public function getLinkToLibraryCitation()
     {
-        return sprintf('http://www.lib.ncsu.edu/repository/scholpubs/search?page=detail&cid=%s', $this->id);
+        return sprintf('https://ci.lib.ncsu.edu/citation/%s', $this->id);
     }
 }

@@ -31,7 +31,7 @@ class CitationTest extends PHPUnit_Framework_TestCase
     public function it_generates_uri_to_library_citation()
     {
         $citation = new Citation(1, 'Winnie-the-Pooh', 'Ashdown Forest Review', 2015);
-        $expectedLink = 'http://www.lib.ncsu.edu/repository/scholpubs/search?page=detail&cid=1';
+        $expectedLink = 'https://ci.lib.ncsu.edu/citation/1';
 
         $this->assertEquals($expectedLink, $citation->getLinkToLibraryCitation());
     }
