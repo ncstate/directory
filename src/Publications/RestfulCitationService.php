@@ -52,19 +52,19 @@ class RestfulCitationService implements CitationService
                 $citation = sprintf(
                     "%s (%s). %s. %s, %s(%s), %s.",
                     $rawCitation['author'],
-                    $rawCitation['source']['year'],
-                    $rawCitation['source']['title'],
-                    $rawCitation['source']['journal'],
+                    $rawCitation['year'],
+                    $rawCitation['title'],
+                    $rawCitation['journal'],
                     $rawCitation['volume'],
                     $rawCitation['number'],
                     $rawCitation['pages']
                 );
 
                 $citations[] = new Citation(
-                    $rawCitation['source']['id'],
-                    $rawCitation['source']['title'],
-                    $rawCitation['source']['journal'],
-                    $rawCitation['source']['year'],
+                    $rawCitation['id'],
+                    $rawCitation['title'],
+                    $rawCitation['journal'],
+                    $rawCitation['year'],
                     $authors,
                     $citation
                 );
