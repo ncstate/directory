@@ -22,10 +22,6 @@ class Citation
             }
         }
 
-        if( ! is_numeric($id)){
-            throw new Exception("Citation ID must be numeric.");
-        }
-
         if ( ! is_null($authors)) {
             foreach ($authors as $author) {
                 $this->addAuthor($author);
