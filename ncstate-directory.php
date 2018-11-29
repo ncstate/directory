@@ -52,7 +52,7 @@ include 'add-views.php';
 include 'communicator.php';
 include 'shortcodes.php';
 include 'includes/directory-plugin-settings.php';
-include 'user_account_linker.php';
+include 'includes/user_account_linker.php';
 
 $settings = new Directory_Plugin_Template_Settings( __FILE__ );
 
@@ -202,6 +202,9 @@ function ncstate_directory_add_role_caps() {
 	foreach($roles as $the_role) { 
 
 		$role = get_role($the_role);
+		if (empty($role)) {
+			continue;
+		}
 
 		$role->add_cap( 'read' );
 		$role->add_cap( 'read_ncstate_directory_user');
