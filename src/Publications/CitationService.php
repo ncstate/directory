@@ -10,9 +10,10 @@ interface CitationService
      * SPR-internal author identifier.
      *
      * @param int $authorIdentifier
+     * @param int $limit default 10
      *
      * @return Citation[]
      */
-    public function getCitationsByAuthorId($authorIdentifier);
+    public function getCitationsByAuthorId($authorIdentifier, $limit = 10);
 
 }

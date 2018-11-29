@@ -27,13 +27,14 @@ class CachedCitationService implements CitationService
      * SPR-internal author identifier.
      *
      * @param int $authorIdentifier
+     * @param int $limit default 10
      *
      * @return Citation[]
      */
-    public function getCitationsByAuthorId($authorIdentifier)
+    public function getCitationsByAuthorId($authorIdentifier, $limit = 10)
     {
-        return $this->cache->remember("profile.publications.{$authorIdentifier}", $this->getTtlMinutes(), function() use ($authorIdentifier) {
-            return $this->service->getCitationsByAuthorId($authorIdentifier);
+        return $this->cache->remember("profile.publications.{$authorIdentifier}.{$limit}", $this->getTtlMinutes(), function() use ($authorIdentifier) {
+            return $this->service->getCitationsByAuthorId($authorIdentifier, $limit);
         });
     }
 

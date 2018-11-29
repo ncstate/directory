@@ -25,14 +25,15 @@ class RestfulCitationService implements CitationService
      * SPR-internal author identifier.
      *
      * @param int $authorIdentifier
+     * @param int $limit default 10
      *
      * @return Citation[]
      */
-    public function getCitationsByAuthorId($authorIdentifier)
+    public function getCitationsByAuthorId($authorIdentifier, $limit = 10)
     {
         $citations = [];
 
-        $response = $this->client->get("authors/{$authorIdentifier}");
+        $response = $this->client->request('GET', "authors/{$authorIdentifier}", ['query' => ['limit' => $limit]]);
 
         if ($response->getStatusCode() !== 200) {
             return [];
@@ -49,16 +50,6 @@ class RestfulCitationService implements CitationService
         foreach ($rawCitations as $rawCitation) {
             try {
                 $authors = explode(' and ', $rawCitation['author']);
-                $citation = sprintf(
-                    "%s (%s). %s. %s, %s(%s), %s.",
-                    $rawCitation['author'],
-                    $rawCitation['year'],
-                    $rawCitation['title'],
-                    $rawCitation['journal'],
-                    $rawCitation['volume'],
-                    $rawCitation['number'],
-                    $rawCitation['pages']
-                );
 
                 $citations[] = new Citation(
                     $rawCitation['id'],
@@ -66,7 +57,7 @@ class RestfulCitationService implements CitationService
                     $rawCitation['journal'],
                     $rawCitation['year'],
                     $authors,
-                    $citation
+                    $rawCitation['html']
                 );
             } catch (Exception $e) {
                 continue;
