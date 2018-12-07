@@ -33,7 +33,7 @@ class CachedCitationService implements CitationService
      */
     public function getCitationsByAuthorId($authorIdentifier, $limit = 10)
     {
-        return $this->cache->remember("profile.publications.{$authorIdentifier}.{$limit}", $this->getTtlMinutes(), function() use ($authorIdentifier) {
+        return $this->cache->remember("profile.publications.{$authorIdentifier}.{$limit}", $this->getTtlMinutes(), function() use ($authorIdentifier, $limit) {
             return $this->service->getCitationsByAuthorId($authorIdentifier, $limit);
         });
     }
