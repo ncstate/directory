@@ -16,6 +16,11 @@ class Citation
 
     public function __construct($id, $title, $journal, $year, array $authors = null, $fullcitation = '')
     {
+        if (empty($journal)) {
+            // Hack to allow for non-journal entries
+            $journal = ' ';
+        }
+
         foreach(func_get_args() as $arg){
             if (empty($arg)) {
                 throw new Exception("All properties of a citation are required.");
