@@ -18,8 +18,9 @@
 				
 				<?php
 					$image = wp_get_attachment_image_src($meta['image'][0], 'full');
+					$image_alt = get_post_meta($meta['image'][0], '_wp_attachment_image_alt', TRUE);
 					if($image):
-						echo '<img src="' . $image[0] . '" class="img-responsive" />';
+						echo '<img src="' . $image[0] . '" class="img-responsive" alt="' . $image_alt . '" />';
 					endif;
 						
 					if(strlen($meta['phone'][0])==10):
@@ -44,18 +45,30 @@
 
 				<div class="person_info">
 					<div class="titles">
-						<p class="title"><?php echo $meta['title'][0]; ?></p>
+						<?php if(!empty($meta['title'][0])): ?>
+							<p class="title"><?php echo $meta['title'][0]; ?></p>
+						<?php endif; ?>
 						<?php if(have_rows('additional_titles')): ?>
 							<?php while(have_rows('additional_titles')): the_row();?>
 								<p class="additional_titles"><?php echo get_sub_field('title'); ?></p>
 							<?php endwhile; ?>
 						<?php endif; ?>
 					</div>
-					<?php echo '<p class="unit">' . implode(', ', $subgroup_listing) . '</p>'; ?>
-					<p class="office"><?php echo $meta['office'][0]; ?></p>
-					<p class="email"><a href="mailto:<?php echo $meta['email'][0]; ?>"><?php echo $meta['email'][0]; ?></a></p>
-					<p class="phone"><?php echo '<a href="tel:' . $meta['phone'][0] . '">' . $meta['phone'][0] ?></a></p>
-					<p class="website"><a href="<?php echo $meta['website'][0]; ?>" target="_blank"><?php echo $meta['website'][0]; ?></a></p>
+					<?php if(!empty($subgroup_listing)): ?>
+						<?php echo '<p class="unit">' . implode(', ', $subgroup_listing) . '</p>'; ?>
+					<?php endif; ?>
+					<?php if(!empty($meta['office'][0])): ?>
+						<p class="office"><?php echo $meta['office'][0]; ?></p>
+					<?php endif; ?>
+					<?php if(!empty($meta['email'][0])): ?>
+						<p class="email"><a href="mailto:<?php echo $meta['email'][0]; ?>"><?php echo $meta['email'][0]; ?></a></p>
+					<?php endif; ?>
+					<?php if(!empty($meta['phone'][0])): ?>
+						<p class="phone"><?php echo '<a href="tel:' . $meta['phone'][0] . '">' . $meta['phone'][0] ?></a></p>
+					<?php endif; ?>
+					<?php if(!empty($meta['website'][0])): ?>
+						<p class="website"><a href="<?php echo $meta['website'][0]; ?>" target="_blank"><?php echo $meta['website'][0]; ?></a></p>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

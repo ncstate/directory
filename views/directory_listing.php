@@ -30,10 +30,11 @@ function print_person($person, $categories = null, $layout = 'grid') {
 	}
 
 	$image = wp_get_attachment_image_src($meta['image'][0], 'full');
+	$image_alt = get_post_meta($meta['image'][0], '_wp_attachment_image_alt', TRUE);
 	if(get_option('ncstate_directory_display_images', 'true') == 'false') {
 		$img_code = '';
 	} elseif($image) {
-		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><img src="' . $image[0] . '" class="img-responsive" /></a>';
+		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><img src="' . $image[0] . '" class="img-responsive" alt="' . $image_alt . '" /></a>';
 	} else {
 		$img_code = '<a href="' . get_site_url() . '/people/' . $person->post_name . '"><div class="initials">' . substr($meta['first_name'][0], 0, 1) . substr($meta['last_name'][0], 0, 1) . '</div></a>';
 	}
@@ -50,6 +51,18 @@ function print_person($person, $categories = null, $layout = 'grid') {
 			$subgroup_listing[] = $term->name;
 		}
 	}
+	
+	if(!empty($meta['email'][0])):
+		$email = '<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>';
+	else:
+		$email = '';
+	endif;
+	
+	if(!empty($meta['phone'][0])):
+		$phone = '<p class="phone">' . $meta['phone'][0] . '</p>';
+	else:
+		$email = '';
+	endif;
 
 	$return_value .= '
 		<div class="directory_entry ' . $layout . '">
@@ -62,8 +75,8 @@ function print_person($person, $categories = null, $layout = 'grid') {
 				<p class="unit">' . implode(', ', $subgroup_listing) . '</p>
 			</div>
 			<div class="subgroups">
-				<a href="mailto:' . $meta['email'][0] . '"</a><p class="email">' . $meta['email'][0] . '</p></a>
-				<p class="phone">' . $meta['phone'][0] . '</p>
+				' . $email . '
+				' . $phone . '
 			</div>
 		</div>
 	';
